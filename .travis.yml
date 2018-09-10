@@ -1,1 +1,9 @@
 language: java
+
+deploy:
+  provider: heroku
+  api_key:
+    secure: effaa29a-d75d-4493-a338-4033e0e1f415
+  app: subasteando-backend
+  on:
+    repo: Grupo-F-022018-DAPP/subasteando-backend
