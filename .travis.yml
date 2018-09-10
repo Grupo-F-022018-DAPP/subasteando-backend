@@ -1,9 +1,8 @@
 language: java
-
 deploy:
   provider: heroku
   api_key:
-    secure: effaa29a-d75d-4493-a338-4033e0e1f415
+    secure: l8FiLmWV2SVpAiuqKhtdPMYbGYV1Ji/fiBTBcdnfkQAz9hpktPTfczGXT1xjex2iSkeLJ5EaZt5yEUnCilOrbC7VT8zd2uLCSTLbhZVMcVWecRc6g1tCGYvA0OYW8dzOic9z9FyWo/dpsku3gcU9dveN/7YGL7SSf2o0haTMJU20EpBzyWD9sFNvZNp+MCV/CLAzagGvCD6RsPxh3xSMueqXr0yYGKJBCYwEAQuc/z/SKkWiUpMMdPFsf2qIKOEuNXNixIAU0+VpJcfI5rSMW62OVB7VTtXwLM2EwRpDBWv+9Ia7wADkdYPRdZDRQitFftrjMQyTJxs58MMuVQ3eElOmZkO7ahYEaTcQapgcg3wPPf0zry7EnLFef9g4plqfQz1Wmh8gQ4y9dJaD5gF0wM2chlBDY8OHYkDif1MF+Lgi5tCSvkJ3+966Akibl3Uh6XEjoFXW3yqjACsiUQhM9mBku136HRaxmsZjI4ZU4QWmbd5TM/v3ZIHnEt3FUWlU4qSN5mrerOaxci/aSHAzzvp8/MN6LfmJGBAWVPkjoaGtZI9OjUmGGuz2dnld51eVRbsuXJFxigddjZTwNMIVY8PmxyoTXiag0uGGoOKanVxeKwTgsQA53xjJrESf2FccmvKm0Vs0RfKOW55rYBIdjeGDdHuJV5g90xBENQmXwXw=
   app: subasteando-backend
   on:
     repo: Grupo-F-022018-DAPP/subasteando-backend
