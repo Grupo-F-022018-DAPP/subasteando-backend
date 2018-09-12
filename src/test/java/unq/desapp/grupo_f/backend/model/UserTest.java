@@ -9,7 +9,8 @@ public class UserTest {
 	@Test
 	public void test_UserCreatesWithName() {
 		String name = "Agustina";
-		User user = new User(name);
-		assertEquals(name, user.name);
+		User user = new User();
+		user.setName(name);
+		assertEquals(name, user.getName());
 	}
 }

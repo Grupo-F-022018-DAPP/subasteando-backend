@@ -7,11 +7,19 @@ import unq.desapp.grupo_f.backend.model.Exceptions.IncorrectParameterException;
 public class User {
 	
 	
-	public String name;
-	public String surname;
-	public String email;
-	public String password;
-	public LocalDate birthDate;
+	private String name;
+	private String surname;
+	private String email;
+	private String password;
+	private LocalDate birthDate;
+	
+	public User() {
+		this.name = "";
+		this.surname = "";
+		this.email = "";
+		this.password = "";
+		this.birthDate = LocalDate.now();
+	}
 	
 	/* ******************************
 	 * 			Getters				*
