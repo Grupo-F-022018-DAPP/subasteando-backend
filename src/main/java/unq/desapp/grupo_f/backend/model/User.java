@@ -114,7 +114,7 @@ public class User {
 	 ********************************/
 	
 	private void submitBid(Auction auction) {
-		//TODO: Buscar mejor nombre para el mensaje
+		//TODO: Buscar mejor nombre para el mensaje.
 		// 		Se llama en conjunto con submitManualBid y submitAutomaticBid
 		
 		if(!haveParticipatedIn(auction) && !isMine(auction)) {

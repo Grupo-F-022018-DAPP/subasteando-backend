@@ -75,6 +75,9 @@ public class Auction {
 	public List<Bid> getBiddings() {
 		return this.biddings;
 	}
+	public User getOwner() {
+		return owner;
+	}
 	
 
 	/* ******************************
@@ -142,6 +145,10 @@ public class Auction {
 		return this.state.isFinished();
 	}
 	public void startAuction() {
+		/*TODO: 5 subastas en progreso
+		 * Actualmente, si el dueño tiene 5 o mas subastas en proceso, esta subasta no comienza. 
+		 * Deberia agregarse a una cola para comenzarla mas tarde 
+		 */
 		if(this.isNew() && this.owner.canStartAnAuction()) {
 			this.state = new AuctionStateInProgress();
 		}else {
@@ -170,6 +177,8 @@ public class Auction {
 	public Integer getNextPrice() {
 		return this.actualPrice + (this.initialPrice / 100 * 5);
 	}
+
+
 
 
 	
