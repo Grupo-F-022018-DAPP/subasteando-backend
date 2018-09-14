@@ -1,5 +1,6 @@
-package unq.desapp.grupo_f.backend.model;
+package unq.desapp.grupo_f.backend.model.bid;
 
+import unq.desapp.grupo_f.backend.model.User;
 import unq.desapp.grupo_f.backend.model.auction.Auction;
 import unq.desapp.grupo_f.backend.model.exceptions.BiddingException;
 

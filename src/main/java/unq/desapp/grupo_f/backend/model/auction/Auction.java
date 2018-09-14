@@ -6,7 +6,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import unq.desapp.grupo_f.backend.model.Bid;
+import unq.desapp.grupo_f.backend.model.bid.Bid;
+import unq.desapp.grupo_f.backend.model.exceptions.AuctionStateException;
 import unq.desapp.grupo_f.backend.model.exceptions.IncorrectParameterException;
 
 public class Auction {
@@ -61,6 +62,15 @@ public class Auction {
 	}
 	public LocalDateTime getEndDate() {
 		return endDate;
+	}	
+	public AuctionState getState() {
+		return state;
+	}
+	public Integer getActualPrice() {
+		return actualPrice;
+	}
+	public List<Bid> getBiddings() {
+		return this.biddings;
 	}
 
 	/* ******************************
@@ -109,8 +119,6 @@ public class Auction {
 		}
 		this.endDate = endDate;
 	}
-
-
 	
 
 	/* ******************************
@@ -126,12 +134,26 @@ public class Auction {
 	public Boolean isFinished(){
 		return this.state.isFinished();
 	}
-
+	public void startAuction() {
+		if(this.isNew()) {
+			this.state = new ActionStateInProgress();
+		}else {
+			throw new AuctionStateException("An auction that isnt new, can not start");
+		}
+	}
+	public void finishAuction() {
+		if(this.isInProgress()) {
+			this.state = new ActionStateFinished();
+		}else {
+			throw new AuctionStateException("An auction that isnt in progress, can not finish");
+		}
+	}
 
 	public void addBid(Bid bid) {
-		this.biddings.stream().filter(bidding -> bidding.canAutoBid(this.actualPrice))
-							  .sorted((bid1, bid2) -> bid1.getBiddingLimit().compareTo(bid2.getBiddingLimit())) //TODO: implement Comparable in Bid class
-							  .findFirst().ifPresent(bidding -> bidding.autoBid());
+		this.state.addBidForAuction(this, bid);
+		/*
+		 * La logica para agregar una oferta en la subasta, esta en la clase de estado AuctionStateInProgress 
+		 */
 	}
 	
 
