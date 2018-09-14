@@ -72,6 +72,7 @@ public class Auction {
 	public List<Bid> getBiddings() {
 		return this.biddings;
 	}
+	
 
 	/* ******************************
 	 * 			Setters				*
@@ -119,6 +120,9 @@ public class Auction {
 		}
 		this.endDate = endDate;
 	}
+	public void setActualPrice(Integer actualPrice) {
+		this.actualPrice = actualPrice;
+	}
 	
 
 	/* ******************************
@@ -154,10 +158,17 @@ public class Auction {
 
 	public void addBid(Bid bid) {
 		this.state.addBidForAuction(this, bid);
+		this.biddings.add(bid);
 		/*
 		 * La logica para agregar una oferta en la subasta, esta en la clase de estado AuctionStateInProgress 
 		 */
 	}
+
+	public Integer getNextPrice() {
+		return this.actualPrice + (this.initialPrice / 100 * 5);
+	}
+
+
 	
 
 	/* ******************************
