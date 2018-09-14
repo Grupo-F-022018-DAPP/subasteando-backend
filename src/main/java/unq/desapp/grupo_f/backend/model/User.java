@@ -1,8 +1,11 @@
 package unq.desapp.grupo_f.backend.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
-import unq.desapp.grupo_f.backend.model.Exceptions.IncorrectParameterException;
+import unq.desapp.grupo_f.backend.model.auction.Auction;
+import unq.desapp.grupo_f.backend.model.exceptions.IncorrectParameterException;
 
 public class User {
 	
@@ -12,6 +15,7 @@ public class User {
 	private String email;
 	private String password;
 	private LocalDate birthDate;
+	private List<Auction> auctions;
 	
 	public User() {
 		this.name = "";
@@ -19,6 +23,7 @@ public class User {
 		this.email = "";
 		this.password = "";
 		this.birthDate = LocalDate.now();
+		this.auctions = new ArrayList<Auction>();
 	}
 	
 	/* ******************************
@@ -38,6 +43,10 @@ public class User {
 	}	
 	public LocalDate getBirthDate() {
 		return birthDate;
+	}
+	public List<Auction> getAuctions(){
+		return this.auctions;
+		//TODO: devolver lista no modificable o copia
 	}
 	
 	/* ******************************
@@ -69,14 +78,33 @@ public class User {
 	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}
+	public void addAuction(Auction auction) {
+		this.auctions.add(auction);
+	}
+	public void removeAuction(Auction auction) {
+		this.auctions.remove(auction);
+		//TODO: ¿ auction.delete ?
+	}
 
 	/* ******************************
 	 * 		  Public Methods		*
 	 ********************************/
-
+	
+	public void SubmitManualBid(Auction auction) {
+		Bid bid = new ManualBid(auction, this);
+		auction.addBid(bid);
+	}
+	
+	public void SubmitAutomaticBid(Auction auction, Integer autoBiddingLimit) {
+		Bid bid = new AutomaticBid(auction, this, autoBiddingLimit);
+		auction.addBid(bid);
+	}
+	
 	/* ******************************
 	 * 		  Private Methods		*
 	 ********************************/
-	
+
+
+
 
 }

@@ -1,4 +1,4 @@
-package unq.desapp.grupo_f.backend.model;
+package unq.desapp.grupo_f.backend.model.auction;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -6,7 +6,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import unq.desapp.grupo_f.backend.model.Exceptions.IncorrectParameterException;
+import unq.desapp.grupo_f.backend.model.Bid;
+import unq.desapp.grupo_f.backend.model.exceptions.IncorrectParameterException;
 
 public class Auction {
 	//Posibles nombres de clase: Auction, Sale, Bidding
@@ -18,6 +19,9 @@ public class Auction {
 	private Integer initialPrice;
 	private LocalDate startDate;
 	private LocalDateTime endDate;
+	private AuctionState state;
+	private List<Bid> biddings;
+	private Integer actualPrice;
 	
 	public Auction() {
 		this.title = "";
@@ -27,6 +31,9 @@ public class Auction {
 		this.initialPrice = 0;
 		this.startDate = LocalDate.now().plusDays(1l);
 		this.endDate = LocalDateTime.now().plusDays(3l);
+		this.state = new AuctionStateNew();
+		this.biddings = new ArrayList<Bid>();
+		this.actualPrice = 0;
 	}
 	
 
@@ -85,7 +92,9 @@ public class Auction {
 		this.pictures.remove(picture);
 	}
 	public void setInitialPrice(Integer initialPrice) {
+		//TODO: throw Exception if state != NewAuction
 		this.initialPrice = initialPrice;
+		this.actualPrice = initialPrice;
 	}
 	public void setStartDate(LocalDate startDate) {
 		if(!startDate.isAfter(LocalDate.now())
@@ -101,9 +110,30 @@ public class Auction {
 		this.endDate = endDate;
 	}
 
+
+	
+
 	/* ******************************
 	 * 		  Public Methods		*
 	 ********************************/
+
+	public Boolean isNew() {
+		return this.state.isNew();
+	}
+	public Boolean isInProgress(){
+		return this.state.isInProgress();
+	}
+	public Boolean isFinished(){
+		return this.state.isFinished();
+	}
+
+
+	public void addBid(Bid bid) {
+		this.biddings.stream().filter(bidding -> bidding.canAutoBid(this.actualPrice))
+							  .sorted((bid1, bid2) -> bid1.getBiddingLimit().compareTo(bid2.getBiddingLimit())) //TODO: implement Comparable in Bid class
+							  .findFirst().ifPresent(bidding -> bidding.autoBid());
+	}
+	
 
 	/* ******************************
 	 * 		  Private Methods		*

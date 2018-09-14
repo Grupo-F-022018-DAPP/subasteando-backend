@@ -1,4 +1,4 @@
-package unq.desapp.grupo_f.backend.model.Exceptions;
+package unq.desapp.grupo_f.backend.model.exceptions;
 
 public class IncorrectParameterException extends RuntimeException {
 
