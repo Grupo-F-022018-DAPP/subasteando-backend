@@ -136,17 +136,20 @@ public class Auction {
 	}
 	public void startAuction() {
 		if(this.isNew()) {
-			this.state = new ActionStateInProgress();
+			this.state = new AuctionStateInProgress();
 		}else {
 			throw new AuctionStateException("An auction that isnt new, can not start");
 		}
 	}
 	public void finishAuction() {
 		if(this.isInProgress()) {
-			this.state = new ActionStateFinished();
+			this.state = new AuctionStateFinished();
 		}else {
 			throw new AuctionStateException("An auction that isnt in progress, can not finish");
 		}
+	}
+	public void closeAuction() {
+		this.state = new AuctionStateClosed();
 	}
 
 	public void addBid(Bid bid) {

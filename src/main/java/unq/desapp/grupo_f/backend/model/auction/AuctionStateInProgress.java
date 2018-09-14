@@ -3,7 +3,7 @@ package unq.desapp.grupo_f.backend.model.auction;
 import unq.desapp.grupo_f.backend.model.bid.Bid;
 import unq.desapp.grupo_f.backend.model.exceptions.AuctionStateException;
 
-public class ActionStateInProgress implements AuctionState {
+public class AuctionStateInProgress implements AuctionState {
 
 	@Override
 	public Boolean isNew() {
