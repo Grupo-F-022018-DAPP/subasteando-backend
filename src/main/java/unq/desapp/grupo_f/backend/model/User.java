@@ -19,6 +19,7 @@ public class User {
 	private String password;
 	private LocalDate birthDate;
 	private List<Auction> auctions;
+	private List<Auction> myAuctions;
 	
 	public User() {
 		this.name = "";
@@ -27,6 +28,7 @@ public class User {
 		this.password = "";
 		this.birthDate = LocalDate.now();
 		this.auctions = new ArrayList<Auction>();
+		this.myAuctions = new ArrayList<Auction>();
 	}
 	
 	/* ******************************
@@ -92,13 +94,17 @@ public class User {
 	/* ******************************
 	 * 		  Public Methods		*
 	 ********************************/
-	
-	public void SubmitManualBid(Auction auction) {
+	public void createAuction(Auction auction) {
+		this.myAuctions.add(auction);
+	}
+	public void submitManualBid(Auction auction) {
+		this.submitBid(auction);
 		Bid bid = new ManualBid(auction, this);
 		auction.addBid(bid);
 	}
 	
-	public void SubmitAutomaticBid(Auction auction, Integer autoBiddingLimit) {
+	public void submitAutomaticBid(Auction auction, Integer autoBiddingLimit) {
+		this.submitBid(auction);
 		Bid bid = new AutomaticBid(auction, this, autoBiddingLimit);
 		auction.addBid(bid);
 	}
@@ -106,8 +112,27 @@ public class User {
 	/* ******************************
 	 * 		  Private Methods		*
 	 ********************************/
+	
+	private void submitBid(Auction auction) {
+		//TODO: Buscar mejor nombre para el mensaje
+		// 		Se llama en conjunto con submitManualBid y submitAutomaticBid
+		
+		if(!haveParticipatedIn(auction) && !isMine(auction)) {
+			this.addAuction(auction);
+		}
+	}
 
+	private Boolean isMine(Auction auction) {
+		return this.myAuctions.contains(auction);
+	}
 
+	private Boolean haveParticipatedIn(Auction auction) {
+		return this.auctions.contains(auction);
+	}
+
+	public Boolean canStartAnAuction() {
+		return this.auctions.stream().filter(auct -> auct.isInProgress()).count() <= 5;
+	}
 
 
 }

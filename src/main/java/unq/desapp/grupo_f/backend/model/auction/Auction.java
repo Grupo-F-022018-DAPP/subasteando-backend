@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import unq.desapp.grupo_f.backend.model.User;
 import unq.desapp.grupo_f.backend.model.bid.Bid;
 import unq.desapp.grupo_f.backend.model.exceptions.AuctionStateException;
 import unq.desapp.grupo_f.backend.model.exceptions.IncorrectParameterException;
@@ -23,8 +24,9 @@ public class Auction {
 	private AuctionState state;
 	private List<Bid> biddings;
 	private Integer actualPrice;
+	private User owner;
 	
-	public Auction() {
+	public Auction(User owner) {
 		this.title = "";
 		this.description = "";
 		this.direction = "";
@@ -35,6 +37,7 @@ public class Auction {
 		this.state = new AuctionStateNew();
 		this.biddings = new ArrayList<Bid>();
 		this.actualPrice = 0;
+		this.owner = owner;
 	}
 	
 
@@ -139,10 +142,10 @@ public class Auction {
 		return this.state.isFinished();
 	}
 	public void startAuction() {
-		if(this.isNew()) {
+		if(this.isNew() && this.owner.canStartAnAuction()) {
 			this.state = new AuctionStateInProgress();
 		}else {
-			throw new AuctionStateException("An auction that isnt new, can not start");
+			throw new AuctionStateException("This auction cant start");
 		}
 	}
 	public void finishAuction() {
