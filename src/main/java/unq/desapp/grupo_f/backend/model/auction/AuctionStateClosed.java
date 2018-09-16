@@ -19,6 +19,11 @@ public class AuctionStateClosed implements AuctionState {
 	public Boolean isFinished() {
 		return false;
 	}
+	@Override
+	public Boolean isClosed() {
+		return true;
+	}
+	
 
 	@Override
 	public void addBidForAuction(Auction auction, Bid bid) {
@@ -28,6 +33,6 @@ public class AuctionStateClosed implements AuctionState {
 	private void imClosed(){
 		throw new AuctionStateException("This auction is closed");
 	}
-	
+
 
 }

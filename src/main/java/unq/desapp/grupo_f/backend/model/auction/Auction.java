@@ -32,8 +32,8 @@ public class Auction {
 		this.direction = "";
 		this.pictures = new ArrayList<URL>();
 		this.initialPrice = 0;
-		this.startDate = LocalDate.now().plusDays(1l);
-		this.endDate = LocalDateTime.now().plusDays(3l);
+		this.startDate = LocalDate.MIN;
+		this.endDate = LocalDateTime.MAX;
 		this.state = new AuctionStateNew();
 		this.biddings = new ArrayList<Bid>();
 		this.actualPrice = 0;
@@ -120,13 +120,14 @@ public class Auction {
 			throw new AuctionStateException("This auction has already started. Is is not possible to change the Start date.");
 		}
 		if(!startDate.isAfter(LocalDate.now())
-				&& startDate.isBefore(this.endDate.toLocalDate().minusDays(1l))) {
+				|| !startDate.isBefore(this.endDate.toLocalDate().minusDays(1l))) {
 			throw new IncorrectParameterException("The Start date for the Auction, must be after today, and must be 2 diays before the end Date.");
 		}
+		
 		this.startDate = startDate;
 	}
 	public void setEndDate(LocalDateTime endDate) {
-		if(this.startDate.isBefore(endDate.toLocalDate().minusDays(1l))) {
+		if(!this.startDate.isBefore(endDate.toLocalDate().minusDays(1l))) {
 			throw new IncorrectParameterException("The End date for the Auction, must be 2 days after the start date, at minimum");
 		}
 		this.endDate = endDate;
@@ -168,6 +169,9 @@ public class Auction {
 		}
 	}
 	public void closeAuction() {
+		if(this.isFinished()) {
+			throw new AuctionStateException("An auction that has already finished, can not close");
+		}
 		this.state = new AuctionStateClosed();
 	}
 

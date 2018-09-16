@@ -19,6 +19,10 @@ public class AuctionStateFinished implements AuctionState {
 	public Boolean isFinished() {
 		return true;
 	}
+	@Override
+	public Boolean isClosed() {
+		return false;
+	}
 
 	@Override
 	public void addBidForAuction(Auction auction, Bid bid) {

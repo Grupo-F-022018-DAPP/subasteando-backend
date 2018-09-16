@@ -6,7 +6,12 @@ import java.time.LocalDate;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
+import unq.desapp.grupo_f.backend.model.auction.Auction;
+import unq.desapp.grupo_f.backend.model.bid.AutomaticBid;
+import unq.desapp.grupo_f.backend.model.bid.Bid;
+import unq.desapp.grupo_f.backend.model.bid.ManualBid;
 import unq.desapp.grupo_f.backend.model.exceptions.IncorrectParameterException;
 
 public class UserTest {
@@ -61,7 +66,41 @@ public class UserTest {
 		this.anyUser.setBirthDate(birthDate);
 		assertTrue(this.anyUser.getBirthDate().equals(birthDate));
 	}
-	
+	@Test
+	public void testUnUsuarioPuedeCrearSubastas() {
+		Auction mockAuction = Mockito.mock(Auction.class);
+		this.anyUser.createAuction(mockAuction);
+		
+		assertTrue(this.anyUser.getMyAuctions().contains(mockAuction));
+	}
+	@Test
+	public void testUnUsuarioPuedeCerrarSusSubastas() {
+		Auction mockAuction = Mockito.mock(Auction.class);
+		this.anyUser.createAuction(mockAuction);
+		
+		this.anyUser.closeAuction(mockAuction);
+		
+		Mockito.verify(mockAuction).closeAuction();
+	}
+	@Test
+	public void testUnUsuarioPuedeOfertarEnUnaSubastaManual() {
+		Auction mockAuction = Mockito.mock(Auction.class);
+		this.anyUser().createAuction(mockAuction);
+		
+		anyUser.submitManualBid(mockAuction);
+		
+		Mockito.verify(mockAuction).addBid(Mockito.any(ManualBid.class));
+	}
+
+	@Test
+	public void testUnUsuarioPuedeOfertarEnUnaSubastaAutomatica() {
+		Auction mockAuction = Mockito.mock(Auction.class);
+		this.anyUser().createAuction(mockAuction);
+		
+		anyUser.submitAutomaticBid(mockAuction, 10);
+		
+		Mockito.verify(mockAuction).addBid(Mockito.any(AutomaticBid.class));
+	}
 	private User anyUser() {
 		return new User();
 	}

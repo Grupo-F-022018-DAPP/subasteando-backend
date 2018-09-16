@@ -78,8 +78,8 @@ public class User {
 		this.email = email;
 	}
 	public void setPassword(String password) {
-		if(password.length() >= 10 || password.length() <= 4) {
-			throw new IncorrectParameterException("The parameter password for the User, must be less or equal than 10 and more or equal than 4 characters");
+		if(password.length() > 10 || password.length() < 4) {
+			throw new IncorrectParameterException("The parameter password for the User, must be less or equal than 10, and more or equal than 4 characters");
 		}
 		this.password = password;
 	}
