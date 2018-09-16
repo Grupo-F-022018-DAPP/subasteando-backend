@@ -109,11 +109,16 @@ public class Auction {
 		this.pictures.remove(picture);
 	}
 	public void setInitialPrice(Integer initialPrice) {
-		//TODO: throw Exception if state != NewAuction
+		if(!this.state.isNew()) {
+			throw new AuctionStateException("This auction has already started. It is not possible to change the Initial price");
+		}
 		this.initialPrice = initialPrice;
 		this.actualPrice = initialPrice;
 	}
 	public void setStartDate(LocalDate startDate) {
+		if(!this.state.isNew()) {
+			throw new AuctionStateException("This auction has already started. Is is not possible to change the Start date.");
+		}
 		if(!startDate.isAfter(LocalDate.now())
 				&& startDate.isBefore(this.endDate.toLocalDate().minusDays(1l))) {
 			throw new IncorrectParameterException("The Start date for the Auction, must be after today, and must be 2 diays before the end Date.");

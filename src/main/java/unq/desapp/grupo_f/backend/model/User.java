@@ -9,6 +9,7 @@ import unq.desapp.grupo_f.backend.model.bid.AutomaticBid;
 import unq.desapp.grupo_f.backend.model.bid.Bid;
 import unq.desapp.grupo_f.backend.model.bid.ManualBid;
 import unq.desapp.grupo_f.backend.model.exceptions.IncorrectParameterException;
+import unq.desapp.grupo_f.backend.model.exceptions.UserException;
 
 public class User {
 	
@@ -51,7 +52,9 @@ public class User {
 	}
 	public List<Auction> getAuctions(){
 		return this.auctions;
-		//TODO: devolver lista no modificable o copia
+	}
+	public List<Auction> getMyAuctions(){
+		return this.myAuctions;
 	}
 	
 	/* ******************************
@@ -75,20 +78,13 @@ public class User {
 		this.email = email;
 	}
 	public void setPassword(String password) {
-		if(password.length() > 10) {
-			throw new IncorrectParameterException("The parameter password for the User, must be less or equal than 10 characters");
+		if(password.length() >= 10 || password.length() <= 4) {
+			throw new IncorrectParameterException("The parameter password for the User, must be less or equal than 10 and more or equal than 4 characters");
 		}
 		this.password = password;
 	}
 	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
-	}
-	public void addAuction(Auction auction) {
-		this.auctions.add(auction);
-	}
-	public void removeAuction(Auction auction) {
-		this.auctions.remove(auction);
-		//TODO: ¿ auction.delete ?
 	}
 
 	/* ******************************
@@ -108,15 +104,19 @@ public class User {
 		Bid bid = new AutomaticBid(auction, this, autoBiddingLimit);
 		auction.addBid(bid);
 	}
+
+	public void closeAuction(Auction auction) {
+		if(!this.isMine(auction)) {
+			throw new UserException("This user does not own the auction");
+		}
+		auction.closeAuction();
+	}
 	
 	/* ******************************
 	 * 		  Private Methods		*
 	 ********************************/
 	
 	private void submitBid(Auction auction) {
-		//TODO: Buscar mejor nombre para el mensaje.
-		// 		Se llama en conjunto con submitManualBid y submitAutomaticBid
-		
 		if(!haveParticipatedIn(auction) && !isMine(auction)) {
 			this.addAuction(auction);
 		}
@@ -132,6 +132,9 @@ public class User {
 
 	public Boolean canStartAnAuction() {
 		return this.auctions.stream().filter(auct -> auct.isInProgress()).count() <= 5;
+	}
+	private void addAuction(Auction auction) {
+		this.auctions.add(auction);
 	}
 
 
