@@ -99,9 +99,6 @@ public class Auction {
 	public void setDirection(String direction) {
 		this.direction = direction;
 	}
-	public void setPictures(List<URL> pictures) {
-		this.pictures = pictures;
-	}
 	public void addPicture(URL picture) {
 		this.pictures.add(picture);
 	}

@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import unq.desapp.grupo_f.backend.model.auction.Auction;
+import unq.desapp.grupo_f.backend.model.bid.ManualBid;
 import unq.desapp.grupo_f.backend.model.exceptions.AuctionStateException;
 import unq.desapp.grupo_f.backend.model.exceptions.IncorrectParameterException;
 
@@ -24,6 +25,10 @@ public class AuctionTest {
 	public void before() {
 		mockedUser = Mockito.mock(User.class);
 		anyAuction = new Auction(mockedUser);
+	}
+	@Test
+	public void testUnaSubastaTieneDueño() {
+		assertEquals(mockedUser, anyAuction.getOwner());
 	}
 	@Test
 	public void testUnaSubastaTieneTitulo() {
@@ -213,9 +218,33 @@ public class AuctionTest {
 		closedAuction.closeAuction();
 		closedAuction.finishAuction();
 	}
-	@Test
-	public void testUnaSubastaSabeCualVaASerElSiguientePrecioParaOfertar() {
-		anyAuction.setInitialPrice(100);
-		assertTrue(105 == anyAuction.getNextPrice());
+	@Test(expected = AuctionStateException.class)
+	public void testUnaSubastaNoPuedeCambiarElPrecioInicialSiYaComenzo(){
+		Auction startedAuction = new Auction(mockedUser);
+		startedAuction.startAuction();
+		startedAuction.setInitialPrice(1);
 	}
+	@Test(expected = AuctionStateException.class)
+	public void testUnaSubastaNoPuedeCambiarLaFechaDeInicioSiYaComenzo(){
+		Auction startedAuction = new Auction(mockedUser);
+		startedAuction.startAuction();
+		startedAuction.setStartDate(Mockito.mock(LocalDate.class));
+	}
+	@Test
+	public void testAlOfertarEnUnaSubastaAumentaElPrecioPorSuValorCorrespondiente() {
+		ManualBid bid = Mockito.mock(ManualBid.class);
+		
+		anyAuction.setInitialPrice(100);
+		
+		assertTrue(100 == anyAuction.getActualPrice());
+		assertTrue(105 == anyAuction.getNextPrice());
+
+		Mockito.when(mockedUser.canStartAnAuction()).thenReturn(true);
+		anyAuction.startAuction();
+		
+		anyAuction.addBid(bid);
+		
+		assertTrue(105 == anyAuction.getActualPrice());
+	}
+	
 }

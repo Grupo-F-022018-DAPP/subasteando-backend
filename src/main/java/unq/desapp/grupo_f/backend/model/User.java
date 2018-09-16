@@ -131,7 +131,7 @@ public class User {
 	}
 
 	public Boolean canStartAnAuction() {
-		return this.auctions.stream().filter(auct -> auct.isInProgress()).count() <= 5;
+		return this.myAuctions.stream().filter(auct -> auct.isInProgress()).count() < 5;
 	}
 	private void addAuction(Auction auction) {
 		this.auctions.add(auction);
