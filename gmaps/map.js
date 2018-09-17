@@ -26,20 +26,41 @@ function userGeolocation() {
       var destination = new google.maps.Marker({ position: posDest,
                                                  map: self.map, draggable:true,
                                                  title:"Destino" });
+      getInfo(origin, destination)
       origin.addListener('position_changed',
-                          function(destination) { bindInfo(this, destination) })
+                          function() { getInfo(this, destination) })
+
       destination.addListener('position_changed',
-                               function(origin) { bindInfo(this, origin) })
+                               function() { getInfo(origin, this) })
       self.map.setCenter(pos)
       });
     }
   }
 
-  function bindInfo(p1, p2){
-    geocoder.geocode({'location': p1.getPosition()}, function(results, status, p2) {
+  function getInfo(origin, destination){
+    geocoder.geocode({'location': origin.getPosition()}, function(results, status) {
        if (status === 'OK') {
-         console.log(status)
-         console.log(results)
-       }
-     });
+         console.log("sdsadfs")
+         console.log(destination.getPosition())
+         var service = new google.maps.DistanceMatrixService;
+         service.getDistanceMatrix({
+           origins: [origin.getPosition()],
+           destinations: [destination.getPosition()],
+           travelMode: 'DRIVING',
+           unitSystem: google.maps.UnitSystem.METRIC,
+           avoidHighways: false,
+           avoidTolls: false
+           }, function(response, status){
+           bindInfo('origin-info', response.originAddresses[0])
+           bindInfo('destination-info', response.destinationAddresses[0])
+           var distanceInfo = response.rows[0].elements[0]
+           bindInfo('distance-info', distanceInfo.distance.text)
+           bindInfo('duration-info', distanceInfo.duration.text)
+         })
+        }
+      });
   }
+
+function bindInfo(elemId, info) {
+  document.getElementById(elemId).innerHTML = info
+}
