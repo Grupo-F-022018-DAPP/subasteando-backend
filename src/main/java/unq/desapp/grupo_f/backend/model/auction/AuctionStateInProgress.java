@@ -25,9 +25,11 @@ public class AuctionStateInProgress implements AuctionState {
 
 	@Override
 	public void addBidForAuction(Auction auction, Bid bid) {
+		auction.getBiddings().add(bid);
 		bid.setPrice(auction.getNextPrice());
 		auction.setActualPrice(auction.getNextPrice());
-		auction.getBiddings().stream().filter(bidding -> bidding.canAutoBid(auction.getActualPrice()))
+		auction.getBiddings().stream().filter(bidding -> bidding.canAutoBid(auction.getNextPrice()) 
+													 && !bidding.getUser().equals(bid.getUser()))
 							  .sorted((bid1, bid2) -> bid1.getBiddingLimit().compareTo(bid2.getBiddingLimit()))
 							  .findFirst().ifPresent(bidding -> bidding.autoBid());
 	}

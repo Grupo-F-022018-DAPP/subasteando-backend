@@ -202,6 +202,7 @@ public class AuctionTest {
 	@Test(expected = AuctionStateException.class)
 	public void testUnaSubastaNoPuedeCerrarSiYaFinalizo(){
 		Auction finishedAuction = new Auction(mockedUser);
+		Mockito.when(mockedUser.canStartAnAuction()).thenReturn(true);
 		finishedAuction.startAuction();
 		finishedAuction.finishAuction();
 		finishedAuction.closeAuction();
@@ -221,14 +222,16 @@ public class AuctionTest {
 	@Test(expected = AuctionStateException.class)
 	public void testUnaSubastaNoPuedeCambiarElPrecioInicialSiYaComenzo(){
 		Auction startedAuction = new Auction(mockedUser);
+		Mockito.when(mockedUser.canStartAnAuction()).thenReturn(true);
 		startedAuction.startAuction();
 		startedAuction.setInitialPrice(1);
 	}
 	@Test(expected = AuctionStateException.class)
 	public void testUnaSubastaNoPuedeCambiarLaFechaDeInicioSiYaComenzo(){
 		Auction startedAuction = new Auction(mockedUser);
+		Mockito.when(mockedUser.canStartAnAuction()).thenReturn(true);
 		startedAuction.startAuction();
-		startedAuction.setStartDate(Mockito.mock(LocalDate.class));
+		startedAuction.setStartDate(LocalDate.now().plusDays(1));
 	}
 	@Test
 	public void testAlOfertarEnUnaSubastaAumentaElPrecioPorSuValorCorrespondiente() {
@@ -245,6 +248,34 @@ public class AuctionTest {
 		anyAuction.addBid(bid);
 		
 		assertTrue(105 == anyAuction.getActualPrice());
+	}
+	@Test(expected = AuctionStateException.class)
+	public void testNoSePuedeOfertarEnUnaSubastaCerrada() {
+		ManualBid bid = Mockito.mock(ManualBid.class);
+		Auction closedAuction = new Auction(mockedUser);
+		closedAuction.closeAuction();
+		
+
+		closedAuction.addBid(bid);
+		
+	}
+	@Test(expected = AuctionStateException.class)
+	public void testNoSePuedeOfertarEnUnaSubastaNueva() {
+		ManualBid bid = Mockito.mock(ManualBid.class);
+		Auction newAuction = new Auction(mockedUser);
+		
+		newAuction.addBid(bid);
+		
+	}
+	@Test(expected = AuctionStateException.class)
+	public void testNoSePuedeOfertarEnUnaSubastaFinalizada() {
+		ManualBid bid = Mockito.mock(ManualBid.class);
+		Auction finishedAuction = new Auction(mockedUser);
+		Mockito.when(mockedUser.canStartAnAuction()).thenReturn(true);
+		finishedAuction.startAuction();
+		finishedAuction.finishAuction();
+		
+		finishedAuction.addBid(bid);
 	}
 	
 }

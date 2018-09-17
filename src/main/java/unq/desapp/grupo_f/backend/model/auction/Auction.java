@@ -174,7 +174,6 @@ public class Auction {
 
 	public void addBid(Bid bid) {
 		this.state.addBidForAuction(this, bid);
-		this.biddings.add(bid);
 		/*
 		 * La logica para agregar una oferta en la subasta, esta en la clase de estado AuctionStateInProgress 
 		 */

@@ -17,13 +17,13 @@ public class AutomaticBid extends Bid {
 
 	@Override
 	public void autoBid() {
-		Bid newBid = new AutomaticBid(this.auction, this.user, this.autoBiddingLimit);
+		Bid newBid = new ManualBid(this.auction, this.user);
 		this.auction.addBid(newBid);
 	}
 
 	@Override
-	public Boolean canAutoBid(Integer actualPriceOfAuction) {
-		return this.autoBiddingLimit > actualPriceOfAuction;
+	public Boolean canAutoBid(Integer nextPriceOfAuction) {
+		return this.autoBiddingLimit > nextPriceOfAuction;
 	}
 
 }

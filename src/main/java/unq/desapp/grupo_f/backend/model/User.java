@@ -100,9 +100,9 @@ public class User {
 	}
 	
 	public void submitAutomaticBid(Auction auction, Integer autoBiddingLimit) {
-		this.submitBid(auction);
 		Bid bid = new AutomaticBid(auction, this, autoBiddingLimit);
 		auction.addBid(bid);
+		this.submitBid(auction);
 	}
 
 	public void closeAuction(Auction auction) {
