@@ -21,6 +21,7 @@ public class User {
 	private LocalDate birthDate;
 	private List<Auction> auctions;
 	private List<Auction> myAuctions;
+	private List<Auction> queuedAuctions;
 	
 	public User() {
 		this.name = "";
@@ -30,6 +31,7 @@ public class User {
 		this.birthDate = LocalDate.now();
 		this.auctions = new ArrayList<Auction>();
 		this.myAuctions = new ArrayList<Auction>();
+		this.queuedAuctions = new ArrayList<Auction>();
 	}
 	
 	/* ******************************
@@ -112,6 +114,10 @@ public class User {
 		auction.closeAuction();
 	}
 	
+	public void queueAuction(Auction auction) {
+		this.queuedAuctions.add(auction);
+	}
+	
 	/* ******************************
 	 * 		  Private Methods		*
 	 ********************************/
@@ -136,6 +142,4 @@ public class User {
 	private void addAuction(Auction auction) {
 		this.auctions.add(auction);
 	}
-
-
 }

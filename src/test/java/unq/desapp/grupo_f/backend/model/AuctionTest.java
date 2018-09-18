@@ -1,6 +1,8 @@
 package unq.desapp.grupo_f.backend.model;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
+
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -278,4 +280,11 @@ public class AuctionTest {
 		finishedAuction.addBid(bid);
 	}
 	
+	@Test(expected = AuctionStateException.class)
+	public void testUnaSubastaCreadaQuedaEncoladaSiUsuarioTieneMasDe4Activas() {
+		Auction newAuction = new Auction(mockedUser);
+		Mockito.when(mockedUser.canStartAnAuction()).thenReturn(false);
+		newAuction.startAuction();
+		verify(mockedUser).queueAuction(newAuction);
+	}
 }

@@ -155,6 +155,7 @@ public class Auction {
 		if(this.isNew() && this.owner.canStartAnAuction()) {
 			this.state = new AuctionStateInProgress();
 		}else {
+			this.owner.queueAuction(this);
 			throw new AuctionStateException("This auction cant start");
 		}
 	}
