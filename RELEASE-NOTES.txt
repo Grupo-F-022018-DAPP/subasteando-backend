@@ -1,0 +1,11 @@
+---------------------------------------------------------------------
+TAG entrega-01
+---------------------------------------------------------------------
+NEW FEATURES:
+* Modelo
+* Demo google maps
+
+NOTES:
+* Funcionalidad de autoextension de fecha final de subasta
+
+KNOWN ISSUES:
