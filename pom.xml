@@ -23,6 +23,12 @@
 	<jacoco.itreportpath>${project.build.directory}/jacoco</jacoco.itreportpath>
 	<jacoco.itreportfile>${jacoco.itreportpath}/jacoco-it.exec</jacoco.itreportfile>
   </properties>
+ 
+  <parent>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-parent</artifactId>
+      <version>2.0.5.RELEASE</version>
+  </parent>
 
   <dependencies>
     <dependency>
@@ -37,6 +43,28 @@
       <version>1.9.5</version>
       <scope>test</scope>
 	</dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+   <!-- JPA Data (We are going to use Repositories, Entities, Hibernate, etc...) -->
+   <dependency>
+     <groupId>org.springframework.boot</groupId>
+     <artifactId>spring-boot-starter-data-jpa</artifactId>
+   </dependency>
+   
+   <!-- Use MySQL Connector-J -->
+
+   <dependency>
+       <groupId>mysql</groupId>
+       <artifactId>mysql-connector-java</artifactId>
+   </dependency>
+
+   <dependency>
+       <groupId>org.springframework.boot</groupId>
+       <artifactId>spring-boot-starter-test</artifactId>
+       <scope>test</scope>
+   </dependency>
   </dependencies>
   
   <build>
@@ -148,6 +176,10 @@
           </execution>
         </executions>
       </plugin>
+       <plugin>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-maven-plugin</artifactId>
+       </plugin>
     </plugins>
   </build>
 </project>
