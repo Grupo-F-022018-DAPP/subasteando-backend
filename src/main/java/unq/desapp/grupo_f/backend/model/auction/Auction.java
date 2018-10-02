@@ -6,24 +6,47 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
 import unq.desapp.grupo_f.backend.model.User;
 import unq.desapp.grupo_f.backend.model.bid.Bid;
 import unq.desapp.grupo_f.backend.model.exceptions.AuctionStateException;
 import unq.desapp.grupo_f.backend.model.exceptions.IncorrectParameterException;
 
+@Entity
 public class Auction {
 	//Posibles nombres de clase: Auction, Sale, Bidding
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private Integer id;
+    
 	private String title;
 	private String description;
 	private String direction; //TODO: Reemplazar por una direccion de googlemaps
+	@ElementCollection
+	@CollectionTable(name="PICTURES")
 	private List<URL> pictures;
 	private Integer initialPrice;
 	private LocalDate startDate;
 	private LocalDateTime endDate;
+	@OneToOne(cascade= CascadeType.ALL)
 	private AuctionState state;
+	
+	@OneToMany(targetEntity=Bid.class, mappedBy="auction", cascade= CascadeType.ALL)
 	private List<Bid> biddings;
 	private Integer actualPrice;
+	
+	@ManyToOne
 	private User owner;
 	
 	public Auction(User owner) {
@@ -32,8 +55,8 @@ public class Auction {
 		this.direction = "";
 		this.pictures = new ArrayList<URL>();
 		this.initialPrice = 0;
-		this.startDate = LocalDate.MIN;
-		this.endDate = LocalDateTime.MAX;
+		this.startDate = LocalDate.now().minusYears(1l);
+		this.endDate = LocalDateTime.now().plusYears(1l);
 		this.state = new AuctionStateNew();
 		this.biddings = new ArrayList<Bid>();
 		this.actualPrice = 0;

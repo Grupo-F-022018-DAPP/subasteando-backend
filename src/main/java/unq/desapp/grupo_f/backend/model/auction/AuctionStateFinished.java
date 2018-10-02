@@ -1,9 +1,12 @@
 package unq.desapp.grupo_f.backend.model.auction;
 
+import javax.persistence.Entity;
+
 import unq.desapp.grupo_f.backend.model.bid.Bid;
 import unq.desapp.grupo_f.backend.model.exceptions.AuctionStateException;
 
-public class AuctionStateFinished implements AuctionState {
+@Entity
+public class AuctionStateFinished extends AuctionState {
 
 	@Override
 	public Boolean isNew() {
