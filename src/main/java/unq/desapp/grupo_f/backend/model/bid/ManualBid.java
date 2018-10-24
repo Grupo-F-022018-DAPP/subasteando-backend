@@ -1,16 +1,23 @@
 package unq.desapp.grupo_f.backend.model.bid;
 
+import javax.persistence.Entity;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import unq.desapp.grupo_f.backend.model.User;
 import unq.desapp.grupo_f.backend.model.auction.Auction;
 import unq.desapp.grupo_f.backend.model.exceptions.BiddingException;
 
+@Entity
 public class ManualBid extends Bid {
 
 	public ManualBid(Auction auction, User user) {
 		super(auction, user);
 	}
+	public ManualBid() {}
 
 	@Override
+	@JsonIgnore
 	public Integer getBiddingLimit() {
 		throw new BiddingException("A manual bid doesnt have bidding limit");
 	}

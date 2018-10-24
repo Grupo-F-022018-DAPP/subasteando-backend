@@ -12,6 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import unq.desapp.grupo_f.backend.model.auction.Auction;
 import unq.desapp.grupo_f.backend.model.bid.AutomaticBid;
 import unq.desapp.grupo_f.backend.model.bid.Bid;
@@ -20,6 +24,7 @@ import unq.desapp.grupo_f.backend.model.exceptions.IncorrectParameterException;
 import unq.desapp.grupo_f.backend.model.exceptions.UserException;
 
 @Entity
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@userId", scope= User.class)
 public class User {
 	
     @Id

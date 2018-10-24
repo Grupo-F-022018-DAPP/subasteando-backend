@@ -17,12 +17,18 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import unq.desapp.grupo_f.backend.model.User;
 import unq.desapp.grupo_f.backend.model.bid.Bid;
 import unq.desapp.grupo_f.backend.model.exceptions.AuctionStateException;
 import unq.desapp.grupo_f.backend.model.exceptions.IncorrectParameterException;
 
 @Entity
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@auctionId", scope= Auction.class)
 public class Auction {
 	//Posibles nombres de clase: Auction, Sale, Bidding
 
@@ -62,6 +68,8 @@ public class Auction {
 		this.actualPrice = 0;
 		this.owner = owner;
 	}
+	
+	public Auction() {}
 	
 
 	/* ******************************
@@ -154,6 +162,10 @@ public class Auction {
 	}
 	public void setActualPrice(Integer actualPrice) {
 		this.actualPrice = actualPrice;
+	}
+	
+	public void setOwner(User owner) {
+		this.owner = owner;
 	}
 	
 

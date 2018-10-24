@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import unq.desapp.grupo_f.backend.model.User;
 import unq.desapp.grupo_f.backend.model.auction.Auction;
-import unq.desapp.grupo_f.backend.model.builders.UserBuilder;
 import unq.desapp.grupo_f.backend.repositories.UserRepository;
 
 @Controller
