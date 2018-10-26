@@ -61,7 +61,7 @@ public class Auction {
 		this.direction = "";
 		this.pictures = new ArrayList<URL>();
 		this.initialPrice = 0;
-		this.startDate = LocalDate.now().minusYears(1l);
+		this.startDate = LocalDate.now().plusDays(1l);
 		this.endDate = LocalDateTime.now().plusYears(1l);
 		this.state = new AuctionStateNew();
 		this.biddings = new ArrayList<Bid>();
