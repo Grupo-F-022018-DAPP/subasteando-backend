@@ -1,14 +1,20 @@
-package unq.desapp.grupo_f.backend.controllers.dto;
+package unq.desapp.grupo_f.backend.services.dto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import unq.desapp.grupo_f.backend.model.User;
 
 public class AuctionDTO {
 	
 	private String title;
 	private String description;
 	private Integer initialPrice;
+	@JsonFormat(pattern="dd-MM-yyyy")
 	private LocalDate startDate;
+	@JsonFormat(pattern="dd-MM-yyyy HH:mm:ss")
 	private LocalDateTime endDate;
 	public AuctionDTO() {
 		this.title = "";
@@ -49,5 +55,4 @@ public class AuctionDTO {
 	public void setEndDate(LocalDateTime endDate) {
 		this.endDate = endDate;
 	}
-	
 }

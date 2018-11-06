@@ -1,4 +1,4 @@
-package unq.desapp.grupo_f.backend.controllers;
+package unq.desapp.grupo_f.backend.services.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -6,12 +6,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import unq.desapp.grupo_f.backend.model.User;
 import unq.desapp.grupo_f.backend.model.auction.Auction;
 import unq.desapp.grupo_f.backend.repositories.UserRepository;
 
-@Controller
+@RestController
 @RequestMapping(path="/demo")
 public class UserController {
 
@@ -23,7 +24,8 @@ public class UserController {
 		User n = new User();
 		n.setName(name);
 		n.setEmail(email);
-		Auction auct1 = new Auction(n);
+		Auction auct1 = new Auction();
+		auct1.setOwner(n);
 		auct1.startAuction();
 		User n2 = new User();
 		n2.setName("asd");

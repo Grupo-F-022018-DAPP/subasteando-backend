@@ -12,8 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import unq.desapp.grupo_f.backend.model.auction.Auction;
@@ -27,7 +27,8 @@ import unq.desapp.grupo_f.backend.model.exceptions.UserException;
 @JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@userId", scope= User.class)
 public class User {
 	
-    @Id
+
+	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
     
@@ -41,14 +42,19 @@ public class User {
 	@OneToMany(targetEntity= Auction.class, mappedBy="owner", cascade = CascadeType.ALL)
 	private List<Auction> myAuctions;
 	
+	//UserDetails
+	//private Boolean enabled;
+	
 	public User() {
-		this.name = "";
-		this.surname = "";
-		this.email = "";
-		this.password = "";
-		this.birthDate = LocalDate.now();
-		this.auctions = new ArrayList<Auction>();
-		this.myAuctions = new ArrayList<Auction>();
+		this.name		= "";
+		this.surname	= "";
+		this.email		= "";
+		this.password	= "";
+		this.birthDate	= LocalDate.now();
+		this.auctions	= new ArrayList<Auction>();
+		this.myAuctions	= new ArrayList<Auction>();
+		
+		//this.enabled 				= true;
 	}
 	
 	/* ******************************
@@ -155,6 +161,40 @@ public class User {
 	private void addAuction(Auction auction) {
 		this.auctions.add(auction);
 	}
+	/* ******************************
+	 * 		UserDetails Methods		*
+	 ********************************/
 
+//	@Override
+//	public Collection<? extends GrantedAuthority> getAuthorities() {
+//		return new ArrayList<GrantedAuthority>();
+//	}
+//	@Override
+//	public String getUsername() {
+//		return this.name;
+//	}
+//	@Override
+//	public boolean isAccountNonExpired() {
+//		return true;
+//	}
+//	@Override
+//	public boolean isAccountNonLocked() {
+//		return true;
+//	}
+//	@Override
+//	public boolean isCredentialsNonExpired() {
+//		return true;
+//	}
+//	@Override
+//	public boolean isEnabled() {
+//		return this.enabled;
+//	}
+//	public void setUsername(String username) {
+//		this.setName(username);
+//	}
+//	public void setEnabled(Boolean enabled) {
+//		this.enabled = enabled;
+//	}
+	
 
 }

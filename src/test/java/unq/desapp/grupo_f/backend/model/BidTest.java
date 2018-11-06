@@ -70,7 +70,8 @@ public class BidTest {
 	public void testAnAutomaticBidBidsWhenAnotherBidsInTheSameAuction() {
 		
 		//Preparacion
-		Auction auction = new Auction(mockUser);
+		Auction auction = new Auction();
+		auction.setOwner(mockUser);
 		Auction spyAuction = Mockito.spy(auction);
 		spyAuction.setInitialPrice(100);
 		
@@ -107,7 +108,8 @@ public class BidTest {
 		User owner = Mockito.mock(User.class);
 		User user1 = Mockito.mock(User.class);
 		User user2 = Mockito.mock(User.class);
-		Auction auction = new Auction(owner);
+		Auction auction = new Auction();
+		auction.setOwner(owner);
 		Auction spyAuction = Mockito.spy(auction);
 		spyAuction.setInitialPrice(100); //aumenta de a 5
 		

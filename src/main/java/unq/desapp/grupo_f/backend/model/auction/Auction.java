@@ -17,9 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import unq.desapp.grupo_f.backend.model.User;
@@ -55,7 +53,7 @@ public class Auction {
 	@ManyToOne
 	private User owner;
 	
-	public Auction(User owner) {
+	public Auction() {
 		this.title = "";
 		this.description = "";
 		this.direction = "";
@@ -66,10 +64,7 @@ public class Auction {
 		this.state = new AuctionStateNew();
 		this.biddings = new ArrayList<Bid>();
 		this.actualPrice = 0;
-		this.owner = owner;
 	}
-	
-	public Auction() {}
 	
 
 	/* ******************************
@@ -117,7 +112,7 @@ public class Auction {
 	
 	public void setTitle(String title) {
 		if(title.length() < 10 || title.length() > 50) {
-			throw new IncorrectParameterException("The Title for the Auction, must be more than 10 and less than 50 characters");
+			throw new IncorrectParameterException("The Title for the Auction, must be more than 10 and less than 50 characters.");
 		}
 		this.title = title;
 	}

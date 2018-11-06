@@ -6,4 +6,5 @@ import unq.desapp.grupo_f.backend.model.User;
 
 public interface UserRepository extends CrudRepository<User, Integer> {
 
+    User findByName(String name);
 }
