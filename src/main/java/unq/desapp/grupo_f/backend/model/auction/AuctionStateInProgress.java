@@ -1,23 +1,33 @@
 package unq.desapp.grupo_f.backend.model.auction;
 
+import javax.persistence.Entity;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import unq.desapp.grupo_f.backend.model.bid.Bid;
 
-public class AuctionStateInProgress implements AuctionState {
+@Entity
+public class AuctionStateInProgress extends AuctionState {
 
+	@JsonIgnore
 	@Override
 	public Boolean isNew() {
 		return false;
 	}
 
+	@JsonIgnore
 	@Override
 	public Boolean isInProgress() {
 		return true;
 	}
 
+	@JsonIgnore
 	@Override
 	public Boolean isFinished() {
 		return false;
 	}
+	
+	@JsonIgnore
 	@Override
 	public Boolean isClosed() {
 		return false;
@@ -32,6 +42,11 @@ public class AuctionStateInProgress implements AuctionState {
 													 && !bidding.getUser().equals(bid.getUser()))
 							  .sorted((bid1, bid2) -> bid1.getBiddingLimit().compareTo(bid2.getBiddingLimit()))
 							  .findFirst().ifPresent(bidding -> bidding.autoBid());
+	}
+
+	@Override
+	public String getName() {
+		return Auction.States.InProgress.toString();
 	}
 
 }

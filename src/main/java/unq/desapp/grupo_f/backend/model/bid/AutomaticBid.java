@@ -1,8 +1,11 @@
 package unq.desapp.grupo_f.backend.model.bid;
 
+import javax.persistence.Entity;
+
 import unq.desapp.grupo_f.backend.model.User;
 import unq.desapp.grupo_f.backend.model.auction.Auction;
 
+@Entity
 public class AutomaticBid extends Bid {
 	
 	private Integer autoBiddingLimit;
@@ -10,6 +13,7 @@ public class AutomaticBid extends Bid {
 		super(auction, user);		
 		this.autoBiddingLimit = autoBiddingLimit;
 	}
+	public AutomaticBid() {}
 	
 	public Integer getBiddingLimit() {
 		return autoBiddingLimit;

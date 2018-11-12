@@ -24,7 +24,8 @@ public class AuctionTest {
 	@Before
 	public void before() {
 		mockedUser = Mockito.mock(User.class);
-		anyAuction = new Auction(mockedUser);
+		anyAuction = new Auction();
+		anyAuction.setOwner(mockedUser);
 	}
 	@Test
 	public void testUnaSubastaTieneDueño() {
@@ -146,7 +147,8 @@ public class AuctionTest {
 	}
 	@Test
 	public void testUnaSubastaRecienCreadaTieneComoEstadoNuevaSubasta(){
-		Auction newAuction = new Auction(mockedUser);
+		Auction newAuction = new Auction();
+		newAuction.setOwner(mockedUser);
 		assertTrue(newAuction.getState().isNew());
 		assertFalse(newAuction.getState().isInProgress());
 		assertFalse(newAuction.getState().isFinished());
@@ -154,7 +156,8 @@ public class AuctionTest {
 	}
 	@Test
 	public void testUnaSubastaComenzadaTieneComoEstadoEnProgreso(){
-		Auction startedAuction = new Auction(mockedUser);
+		Auction startedAuction = new Auction();
+		startedAuction.setOwner(mockedUser);
 		Mockito.when(mockedUser.canStartAnAuction()).thenReturn(true);
 		startedAuction.startAuction();
 		
@@ -165,7 +168,8 @@ public class AuctionTest {
 	}
 	@Test
 	public void testUnaSubastaFinalizadaTieneComoEstadoFinalizada(){
-		Auction finishedAuction = new Auction(mockedUser);
+		Auction finishedAuction = new Auction();
+		finishedAuction.setOwner(mockedUser);
 		Mockito.when(mockedUser.canStartAnAuction()).thenReturn(true);
 		finishedAuction.startAuction();
 		finishedAuction.finishAuction();
@@ -178,7 +182,8 @@ public class AuctionTest {
 
 	@Test
 	public void testUnaSubastaCerradaTieneComoEstadoCerrada(){
-		Auction closedAuction = new Auction(mockedUser);
+		Auction closedAuction = new Auction();
+		closedAuction.setOwner(mockedUser);
 		closedAuction.closeAuction();
 		
 		assertFalse(closedAuction.getState().isNew());
@@ -188,20 +193,22 @@ public class AuctionTest {
 	}
 	@Test(expected = AuctionStateException.class)
 	public void testUnaSubastaNoPuedeFinalizarSiNoComenzo(){
-		Auction newAuction = new Auction(mockedUser);
-		
+		Auction newAuction = new Auction();
+		newAuction.setOwner(mockedUser);
 		newAuction.finishAuction();
 	}
 	@Test(expected = AuctionStateException.class)
 	public void testUnaSubastaNoPuedeComenzarSiYaFinalizo(){
-		Auction finishedAuction = new Auction(mockedUser);
+		Auction finishedAuction = new Auction();
+		finishedAuction.setOwner(mockedUser);
 		finishedAuction.startAuction();
 		finishedAuction.finishAuction();
 		finishedAuction.startAuction();
 	}
 	@Test(expected = AuctionStateException.class)
 	public void testUnaSubastaNoPuedeCerrarSiYaFinalizo(){
-		Auction finishedAuction = new Auction(mockedUser);
+		Auction finishedAuction = new Auction();
+		finishedAuction.setOwner(mockedUser);
 		Mockito.when(mockedUser.canStartAnAuction()).thenReturn(true);
 		finishedAuction.startAuction();
 		finishedAuction.finishAuction();
@@ -209,26 +216,30 @@ public class AuctionTest {
 	}
 	@Test(expected = AuctionStateException.class)
 	public void testUnaSubastaNoPuedeComenzarSiYaCerro(){
-		Auction closedAuction = new Auction(mockedUser);
+		Auction closedAuction = new Auction();
+		closedAuction.setOwner(mockedUser);
 		closedAuction.closeAuction();
 		closedAuction.startAuction();
 	}
 	@Test(expected = AuctionStateException.class)
 	public void testUnaSubastaNoPuedeFinalizarSiYaCerro(){
-		Auction closedAuction = new Auction(mockedUser);
+		Auction closedAuction = new Auction();
+		closedAuction.setOwner(mockedUser);
 		closedAuction.closeAuction();
 		closedAuction.finishAuction();
 	}
 	@Test(expected = AuctionStateException.class)
 	public void testUnaSubastaNoPuedeCambiarElPrecioInicialSiYaComenzo(){
-		Auction startedAuction = new Auction(mockedUser);
+		Auction startedAuction = new Auction();
+		startedAuction.setOwner(mockedUser);
 		Mockito.when(mockedUser.canStartAnAuction()).thenReturn(true);
 		startedAuction.startAuction();
 		startedAuction.setInitialPrice(1);
 	}
 	@Test(expected = AuctionStateException.class)
 	public void testUnaSubastaNoPuedeCambiarLaFechaDeInicioSiYaComenzo(){
-		Auction startedAuction = new Auction(mockedUser);
+		Auction startedAuction = new Auction();
+		startedAuction.setOwner(mockedUser);
 		Mockito.when(mockedUser.canStartAnAuction()).thenReturn(true);
 		startedAuction.startAuction();
 		startedAuction.setStartDate(LocalDate.now().plusDays(1));
@@ -252,7 +263,8 @@ public class AuctionTest {
 	@Test(expected = AuctionStateException.class)
 	public void testNoSePuedeOfertarEnUnaSubastaCerrada() {
 		ManualBid bid = Mockito.mock(ManualBid.class);
-		Auction closedAuction = new Auction(mockedUser);
+		Auction closedAuction = new Auction();
+		closedAuction.setOwner(mockedUser);
 		closedAuction.closeAuction();
 		
 
@@ -262,7 +274,8 @@ public class AuctionTest {
 	@Test(expected = AuctionStateException.class)
 	public void testNoSePuedeOfertarEnUnaSubastaNueva() {
 		ManualBid bid = Mockito.mock(ManualBid.class);
-		Auction newAuction = new Auction(mockedUser);
+		Auction newAuction = new Auction();
+		newAuction.setOwner(mockedUser);
 		
 		newAuction.addBid(bid);
 		
@@ -270,7 +283,8 @@ public class AuctionTest {
 	@Test(expected = AuctionStateException.class)
 	public void testNoSePuedeOfertarEnUnaSubastaFinalizada() {
 		ManualBid bid = Mockito.mock(ManualBid.class);
-		Auction finishedAuction = new Auction(mockedUser);
+		Auction finishedAuction = new Auction();
+		finishedAuction.setOwner(mockedUser);
 		Mockito.when(mockedUser.canStartAnAuction()).thenReturn(true);
 		finishedAuction.startAuction();
 		finishedAuction.finishAuction();

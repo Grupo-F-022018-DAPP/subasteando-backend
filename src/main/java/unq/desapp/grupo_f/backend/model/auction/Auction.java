@@ -6,38 +6,66 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import unq.desapp.grupo_f.backend.model.User;
 import unq.desapp.grupo_f.backend.model.bid.Bid;
 import unq.desapp.grupo_f.backend.model.exceptions.AuctionStateException;
 import unq.desapp.grupo_f.backend.model.exceptions.IncorrectParameterException;
 
+@Entity
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Auction {
-	//Posibles nombres de clase: Auction, Sale, Bidding
+	public static enum States {New , InProgress, Closed, Finished}
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.TABLE)
+    private Integer id;
+    
 	private String title;
 	private String description;
 	private String direction; //TODO: Reemplazar por una direccion de googlemaps
+	@ElementCollection
+	@CollectionTable(name="PICTURES")
 	private List<URL> pictures;
 	private Integer initialPrice;
 	private LocalDate startDate;
 	private LocalDateTime endDate;
+	@OneToOne(cascade= CascadeType.ALL)
 	private AuctionState state;
+	
+	@OneToMany(targetEntity=Bid.class, mappedBy="auction", cascade= CascadeType.ALL)
 	private List<Bid> biddings;
 	private Integer actualPrice;
+	
+	
+	@ManyToOne
 	private User owner;
 	
-	public Auction(User owner) {
+	public Auction() {
 		this.title = "";
 		this.description = "";
 		this.direction = "";
 		this.pictures = new ArrayList<URL>();
 		this.initialPrice = 0;
-		this.startDate = LocalDate.MIN;
-		this.endDate = LocalDateTime.MAX;
+		this.startDate = LocalDate.now().plusDays(1l);
+		this.endDate = LocalDateTime.now().plusYears(1l);
 		this.state = new AuctionStateNew();
 		this.biddings = new ArrayList<Bid>();
 		this.actualPrice = 0;
-		this.owner = owner;
 	}
 	
 
@@ -78,6 +106,9 @@ public class Auction {
 	public User getOwner() {
 		return owner;
 	}
+	public Integer getId() {
+		return this.id;
+	}
 	
 
 	/* ******************************
@@ -86,7 +117,7 @@ public class Auction {
 	
 	public void setTitle(String title) {
 		if(title.length() < 10 || title.length() > 50) {
-			throw new IncorrectParameterException("The Title for the Auction, must be more than 10 and less than 50 characters");
+			throw new IncorrectParameterException("The Title for the Auction, must be more than 10 and less than 50 characters.");
 		}
 		this.title = title;
 	}
@@ -133,17 +164,32 @@ public class Auction {
 		this.actualPrice = actualPrice;
 	}
 	
+	public void setOwner(User owner) {
+		this.owner = owner;
+	}
+
+	public void setId(Integer auctionId) {
+		this.id = auctionId;
+	}
+	
+	public void setState(AuctionState state) {
+		this.state = state;
+	}
+	
 
 	/* ******************************
 	 * 		  Public Methods		*
 	 ********************************/
 
+	@JsonIgnore
 	public Boolean isNew() {
 		return this.state.isNew();
 	}
+	@JsonIgnore
 	public Boolean isInProgress(){
 		return this.state.isInProgress();
 	}
+	@JsonIgnore
 	public Boolean isFinished(){
 		return this.state.isFinished();
 	}
@@ -182,6 +228,21 @@ public class Auction {
 	public Integer getNextPrice() {
 		return this.actualPrice + (this.initialPrice / 100 * 5);
 	}
+
+
+	public void changeStateTo(States state) {
+		if(state == States.InProgress && this.state.isNew()) {
+			this.startAuction();
+		}
+		if(state == States.Finished && this.state.isInProgress()) {
+			this.finishAuction();
+		}
+		if(state == States.Closed && !this.state.isFinished()) {
+			this.closeAuction();
+		}
+	}
+
+
 
 
 
