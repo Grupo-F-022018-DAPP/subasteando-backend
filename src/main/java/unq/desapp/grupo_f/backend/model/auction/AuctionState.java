@@ -17,6 +17,7 @@ public abstract class AuctionState {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
+    public abstract String 	getName();
 	public abstract Boolean isNew();
 	public abstract Boolean isInProgress();
 	public abstract Boolean isFinished();

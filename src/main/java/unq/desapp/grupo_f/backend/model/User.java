@@ -24,12 +24,12 @@ import unq.desapp.grupo_f.backend.model.exceptions.IncorrectParameterException;
 import unq.desapp.grupo_f.backend.model.exceptions.UserException;
 
 @Entity
-@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@userId", scope= User.class)
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class User {
 	
 
 	@Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.TABLE)
     private Integer id;
     
 	private String name;
@@ -81,6 +81,9 @@ public class User {
 	public List<Auction> getMyAuctions(){
 		return this.myAuctions;
 	}
+	public Integer getId(){
+		return this.id;
+	}
 	
 	/* ******************************
 	 * 			Setters				*
@@ -112,22 +115,28 @@ public class User {
 		this.birthDate = birthDate;
 	}
 
+	public void setId(Integer userId) {
+		this.id = userId;
+	}
+
 	/* ******************************
 	 * 		  Public Methods		*
 	 ********************************/
 	public void createAuction(Auction auction) {
 		this.myAuctions.add(auction);
 	}
-	public void submitManualBid(Auction auction) {
+	public Bid submitManualBid(Auction auction) {
 		this.submitBid(auction);
 		Bid bid = new ManualBid(auction, this);
 		auction.addBid(bid);
+		return bid;
 	}
 	
-	public void submitAutomaticBid(Auction auction, Integer autoBiddingLimit) {
+	public Bid submitAutomaticBid(Auction auction, Integer autoBiddingLimit) {
 		Bid bid = new AutomaticBid(auction, this, autoBiddingLimit);
 		auction.addBid(bid);
 		this.submitBid(auction);
+		return bid;
 	}
 
 	public void closeAuction(Auction auction) {
@@ -164,6 +173,7 @@ public class User {
 	/* ******************************
 	 * 		UserDetails Methods		*
 	 ********************************/
+
 
 //	@Override
 //	public Collection<? extends GrantedAuthority> getAuthorities() {

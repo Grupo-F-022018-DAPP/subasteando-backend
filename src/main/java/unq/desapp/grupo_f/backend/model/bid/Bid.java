@@ -16,7 +16,7 @@ import unq.desapp.grupo_f.backend.model.auction.Auction;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@bidId", scope= Bid.class)
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 @JsonTypeInfo(use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME
 			 ,include = JsonTypeInfo.As.PROPERTY
 			 ,property = "type")
@@ -26,7 +26,7 @@ public abstract class Bid {
 	
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.TABLE)
     private Integer id;
     
     @ManyToOne
@@ -56,6 +56,9 @@ public abstract class Bid {
 	public abstract void autoBid();
 	public void setPrice(Integer nextPrice) {
 		this.price = nextPrice;
+	}
+	public Integer getId() {
+		return this.id;
 	}
 
 }

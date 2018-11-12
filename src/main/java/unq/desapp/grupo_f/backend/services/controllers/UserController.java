@@ -1,44 +1,44 @@
 package unq.desapp.grupo_f.backend.services.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import unq.desapp.grupo_f.backend.model.User;
-import unq.desapp.grupo_f.backend.model.auction.Auction;
-import unq.desapp.grupo_f.backend.repositories.UserRepository;
+import unq.desapp.grupo_f.backend.services.UserService;
 
 @RestController
-@RequestMapping(path="/demo")
 public class UserController {
 
 	@Autowired 
-	private UserRepository userRepository;
+	private UserService service;
 	
-	@GetMapping(path="/add") // Map ONLY GET Requests
-	public @ResponseBody String addNewUser (@RequestParam String name, @RequestParam String email) {
-		User n = new User();
-		n.setName(name);
-		n.setEmail(email);
-		Auction auct1 = new Auction();
-		auct1.setOwner(n);
-		auct1.startAuction();
-		User n2 = new User();
-		n2.setName("asd");
-		n2.submitManualBid(auct1);
-		userRepository.save(n);
-		userRepository.save(n2);
-		return "Saved";
+	@GetMapping(path="/users")
+	public List<User> getAll(){
+		return service.getAll();
 	}
-	
-	@GetMapping(path="/all")
-	public @ResponseBody Iterable<User> getAllUsers() {
-	// This returns a JSON or XML with the users
-		return userRepository.findAll();
+	@GetMapping("/users/{userId}")
+	public User getUser(@PathVariable Integer userId) {		
+		return this.service.getUser(userId);
+	}
+	@PostMapping(path="/users/new")
+	public User newUser(@RequestBody User user) {
+		return this.service.createUser(user);
+	}
+	@PutMapping(path="/users/{userId}")
+	public User updateUser(@PathVariable Integer userId, @RequestBody User user) {
+		return this.service.updateUser(userId, user);
+	}
+	@DeleteMapping("/users/{userId}")
+	public void deleteUser(@PathVariable Integer userId) {		
+		this.service.deleteUser(userId);
 	}
 	
 }

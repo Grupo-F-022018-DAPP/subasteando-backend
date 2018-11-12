@@ -5,10 +5,10 @@ import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 
 import unq.desapp.grupo_f.backend.model.User;
+import unq.desapp.grupo_f.backend.model.bid.Bid;
 
-public interface UserRepository extends CrudRepository<User, Integer> {
+public interface BidRepository extends CrudRepository<Bid, Integer> {
+	
+	List<Bid> findByUser(User user);
 
-    User findByName(String name);
-    @Override
-    List<User> findAll();
 }
