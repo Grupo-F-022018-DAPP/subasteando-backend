@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import unq.desapp.grupo_f.backend.model.auction.Auction;
+import unq.desapp.grupo_f.backend.model.Auction;
 import unq.desapp.grupo_f.backend.services.AuctionService;
 import unq.desapp.grupo_f.backend.services.dto.AuctionDTO;
 

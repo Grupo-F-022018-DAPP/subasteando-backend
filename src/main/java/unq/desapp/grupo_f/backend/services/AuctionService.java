@@ -3,8 +3,8 @@ package unq.desapp.grupo_f.backend.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import unq.desapp.grupo_f.backend.model.Auction;
 import unq.desapp.grupo_f.backend.model.User;
-import unq.desapp.grupo_f.backend.model.auction.Auction;
 import unq.desapp.grupo_f.backend.model.builders.AuctionBuilder;
 import unq.desapp.grupo_f.backend.model.exceptions.AuctionException;
 import unq.desapp.grupo_f.backend.model.exceptions.UserException;

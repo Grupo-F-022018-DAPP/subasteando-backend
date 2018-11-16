@@ -11,8 +11,8 @@ import javax.persistence.ManyToOne;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 
+import unq.desapp.grupo_f.backend.model.Auction;
 import unq.desapp.grupo_f.backend.model.User;
-import unq.desapp.grupo_f.backend.model.auction.Auction;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)

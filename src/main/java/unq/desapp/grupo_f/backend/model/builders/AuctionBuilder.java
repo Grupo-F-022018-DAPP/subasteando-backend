@@ -1,11 +1,13 @@
 package unq.desapp.grupo_f.backend.model.builders;
 
+import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.Random;
 
+import unq.desapp.grupo_f.backend.model.Auction;
 import unq.desapp.grupo_f.backend.model.User;
-import unq.desapp.grupo_f.backend.model.auction.Auction;
 import unq.desapp.grupo_f.backend.model.exceptions.AuctionBuilderException;
 import unq.desapp.grupo_f.backend.model.exceptions.IncorrectParameterException;
 
@@ -29,7 +31,7 @@ public class AuctionBuilder {
 
 
 	/* ******************************
-	 * 		  Public Methods		*
+	 * 		 Getters and Setters	*
 	 ********************************/
 	
 	public AuctionBuilder setTitle(String title) {
@@ -75,6 +77,11 @@ public class AuctionBuilder {
 		copy.hasProperty.put(Property.Owner, true);
 		return copy;
 	}
+
+	/* ******************************
+	 * 		 Public methods			*
+	 ********************************/
+	
 	
 	public Auction build() {
 		if(!this.hasEverything()) {
@@ -83,6 +90,21 @@ public class AuctionBuilder {
 											+ ", and owner. One or more of them are missing");
 		}
 		return auction;
+	}
+	
+	public Auction buildRandomAuction() {
+		Auction randomAuction = new Auction();
+		Random random = new Random();
+		String possibleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+		randomAuction.setInitialPrice(random.nextInt(1000)  + 10);
+		randomAuction.setDescription(this.generateRandomString(random, possibleChars, 15));
+		randomAuction.setDirection(this.generateRandomString(random, possibleChars, 10));
+		randomAuction.setStartDate(LocalDate.now().plusDays(random.nextInt(29)));
+		randomAuction.setEndDate(LocalDateTime.now().plusMonths(random.nextInt(12)));
+		randomAuction.setTitle(this.generateRandomString(random, possibleChars, 11));
+		randomAuction.setOwner(new UserBuilder().buildRandomUser());
+		
+		return randomAuction;
 	}
 	
 
@@ -124,6 +146,14 @@ public class AuctionBuilder {
 			hasEverything = hasEverything && bool; 
 		}
 		return hasEverything;
+	}
+	
+	private String generateRandomString(Random random, String possibleChars, Integer length) {
+		char[] text = new char[length];
+        for (int i = 0; i < length; i++) {
+            text[i] = possibleChars.charAt(random.nextInt(possibleChars.length()));
+        }
+        return new String(text);
 	}
 
 }

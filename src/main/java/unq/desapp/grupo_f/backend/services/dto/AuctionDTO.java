@@ -8,7 +8,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import unq.desapp.grupo_f.backend.model.auction.Auction;
+import unq.desapp.grupo_f.backend.model.Auction;
 
 public class AuctionDTO {
 	

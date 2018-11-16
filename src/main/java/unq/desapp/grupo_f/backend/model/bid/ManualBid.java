@@ -4,8 +4,8 @@ import javax.persistence.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import unq.desapp.grupo_f.backend.model.Auction;
 import unq.desapp.grupo_f.backend.model.User;
-import unq.desapp.grupo_f.backend.model.auction.Auction;
 import unq.desapp.grupo_f.backend.model.exceptions.BiddingException;
 
 @Entity

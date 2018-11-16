@@ -5,4 +5,4 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/subasteando_db
     username: springuser
-    password: root
+    password: root 
