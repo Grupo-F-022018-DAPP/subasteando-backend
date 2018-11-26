@@ -44,9 +44,9 @@ public class ManualBidBuilder {
 		}
 		return new ManualBid(auction.get(),user.get());
 	}
-	public ManualBid buildRandomAutomaticBid() {
-		User randomUser = new UserBuilder().buildRandomUser();
-		Auction randomAuction = new AuctionBuilder().buildRandomAuction();
+	public ManualBid buildRandom() {
+		User randomUser = new UserBuilder().buildRandom();
+		Auction randomAuction = new AuctionBuilder().buildRandom();
 		
 		return new ManualBid(randomAuction, randomUser);
 	}

@@ -56,7 +56,7 @@ public class Auction {
 	private Integer actualPrice;
 	
 	
-	@ManyToOne
+	@ManyToOne(cascade= CascadeType.ALL)
 	private User owner;
 	
 	public Auction() {

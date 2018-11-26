@@ -73,7 +73,7 @@ public class UserBuilder {
 		return user;
 	}
 	
-	public User buildRandomUser() {
+	public User buildRandom() {
 		
 		User randomUser = new User();
 		Random random = new Random();

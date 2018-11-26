@@ -92,7 +92,7 @@ public class AuctionBuilder {
 		return auction;
 	}
 	
-	public Auction buildRandomAuction() {
+	public Auction buildRandom() {
 		Auction randomAuction = new Auction();
 		Random random = new Random();
 		String possibleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -102,7 +102,7 @@ public class AuctionBuilder {
 		randomAuction.setStartDate(LocalDate.now().plusDays(random.nextInt(29)));
 		randomAuction.setEndDate(LocalDateTime.now().plusMonths(random.nextInt(12)));
 		randomAuction.setTitle(this.generateRandomString(random, possibleChars, 11));
-		randomAuction.setOwner(new UserBuilder().buildRandomUser());
+		randomAuction.setOwner(new UserBuilder().buildRandom());
 		
 		return randomAuction;
 	}

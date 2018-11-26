@@ -53,9 +53,9 @@ public class AutomaticBidBuilder {
 		}
 		return new AutomaticBid(auction.get(),user.get(), autoBiddingLimit.get());
 	}
-	public AutomaticBid buildRandomAutomaticBid() {
-		User randomUser = new UserBuilder().buildRandomUser();
-		Auction randomAuction = new AuctionBuilder().buildRandomAuction();
+	public AutomaticBid buildRandom() {
+		User randomUser = new UserBuilder().buildRandom();
+		Auction randomAuction = new AuctionBuilder().buildRandom();
 		
 		return new AutomaticBid(randomAuction, randomUser, new Random().nextInt(1000));
 	}
