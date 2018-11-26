@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import unq.desapp.grupo_f.backend.model.auction.Auction;
 import unq.desapp.grupo_f.backend.model.bid.AutomaticBid;
 import unq.desapp.grupo_f.backend.model.bid.ManualBid;
 import unq.desapp.grupo_f.backend.model.exceptions.IncorrectParameterException;

@@ -1,6 +1,7 @@
 package unq.desapp.grupo_f.backend.model.builders;
 
 import java.time.LocalDate;
+import java.util.Random;
 
 import unq.desapp.grupo_f.backend.model.User;
 import unq.desapp.grupo_f.backend.model.exceptions.BuilderException;
@@ -25,7 +26,7 @@ public class UserBuilder {
 	}
 
 	/* ******************************
-	 * 		  Public Methods		*
+	 * 		Getters and Setters		*
 	 ********************************/
 	
 	public UserBuilder setName(String name) {
@@ -60,12 +61,32 @@ public class UserBuilder {
 		next.hasBirthDate = true;
 		return next;
 	}
+
+	/* ******************************
+	 * 		  Public Methods		*
+	 ********************************/
 	
 	public User build() {
 		if(!this.hasEverything()) {
 			throw new BuilderException("An user needs Name, Surname, Email, Passwrod, and BirthDate. One or more of them are missing");
 		}
 		return user;
+	}
+	
+	public User buildRandom() {
+		
+		User randomUser = new User();
+		Random random = new Random();
+		String possibleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+		
+		randomUser.setName(this.generateRandomString(random, possibleChars, 10));
+		randomUser.setSurname(this.generateRandomString(random, possibleChars, 10));
+		randomUser.setEmail(this.generateRandomString(random, possibleChars, 8) + "@gmail.com");
+		randomUser.setPassword(this.generateRandomString(random, possibleChars, 8));
+		randomUser.setBirthDate(LocalDate.now().minusYears(random.nextInt(50)));
+		
+		return randomUser;
+
 	}
 	
 
@@ -92,6 +113,14 @@ public class UserBuilder {
 		copy.hasBirthDate = this.hasBirthDate;
 		
 		return copy;
+	}
+	
+	private String generateRandomString(Random random, String possibleChars, Integer length) {
+		char[] text = new char[length];
+        for (int i = 0; i < length; i++) {
+            text[i] = possibleChars.charAt(random.nextInt(possibleChars.length()));
+        }
+        return new String(text);
 	}
 	
 	

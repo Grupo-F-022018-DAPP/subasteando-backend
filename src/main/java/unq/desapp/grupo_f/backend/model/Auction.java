@@ -1,4 +1,4 @@
-package unq.desapp.grupo_f.backend.model.auction;
+package unq.desapp.grupo_f.backend.model;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -21,7 +21,11 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-import unq.desapp.grupo_f.backend.model.User;
+import unq.desapp.grupo_f.backend.model.auctionState.AuctionState;
+import unq.desapp.grupo_f.backend.model.auctionState.AuctionStateClosed;
+import unq.desapp.grupo_f.backend.model.auctionState.AuctionStateFinished;
+import unq.desapp.grupo_f.backend.model.auctionState.AuctionStateInProgress;
+import unq.desapp.grupo_f.backend.model.auctionState.AuctionStateNew;
 import unq.desapp.grupo_f.backend.model.bid.Bid;
 import unq.desapp.grupo_f.backend.model.exceptions.AuctionStateException;
 import unq.desapp.grupo_f.backend.model.exceptions.IncorrectParameterException;
@@ -52,7 +56,7 @@ public class Auction {
 	private Integer actualPrice;
 	
 	
-	@ManyToOne
+	@ManyToOne(cascade= CascadeType.ALL)
 	private User owner;
 	
 	public Auction() {

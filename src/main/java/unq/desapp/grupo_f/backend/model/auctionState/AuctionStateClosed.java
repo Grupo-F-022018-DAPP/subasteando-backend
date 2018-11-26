@@ -1,9 +1,10 @@
-package unq.desapp.grupo_f.backend.model.auction;
+package unq.desapp.grupo_f.backend.model.auctionState;
 
 import javax.persistence.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import unq.desapp.grupo_f.backend.model.Auction;
 import unq.desapp.grupo_f.backend.model.bid.Bid;
 import unq.desapp.grupo_f.backend.model.exceptions.AuctionStateException;
 

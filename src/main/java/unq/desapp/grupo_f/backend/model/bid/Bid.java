@@ -1,5 +1,6 @@
 package unq.desapp.grupo_f.backend.model.bid;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,8 +12,8 @@ import javax.persistence.ManyToOne;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 
+import unq.desapp.grupo_f.backend.model.Auction;
 import unq.desapp.grupo_f.backend.model.User;
-import unq.desapp.grupo_f.backend.model.auction.Auction;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -29,9 +30,9 @@ public abstract class Bid {
     @GeneratedValue(strategy=GenerationType.TABLE)
     private Integer id;
     
-    @ManyToOne
+    @ManyToOne(cascade= CascadeType.ALL)
 	protected User user;
-    @ManyToOne
+    @ManyToOne(cascade= CascadeType.ALL)
 	protected Auction auction;
 	protected Integer price;
 	
