@@ -4,6 +4,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -52,11 +53,13 @@ public class Auction {
 	private AuctionState state;
 	
 	@OneToMany(targetEntity=Bid.class, mappedBy="auction", cascade= CascadeType.ALL)
+	@JsonIgnore
 	private List<Bid> biddings;
 	private Integer actualPrice;
 	
 	
 	@ManyToOne(cascade= CascadeType.ALL)
+	@JsonIgnore
 	private User owner;
 	
 	public Auction() {
@@ -76,7 +79,13 @@ public class Auction {
 	/* ******************************
 	 * 			Getters				*
 	 ********************************/
-
+	public List<Integer> getBiddingsIds() {
+		return Arrays.asList((Integer[])this.biddings.stream().map(bid -> bid.getId()).toArray());
+	}
+	public Integer getOwnerId() {
+		return this.owner.getId();
+	}
+	
 	public String getTitle() {
 		return title;
 	}

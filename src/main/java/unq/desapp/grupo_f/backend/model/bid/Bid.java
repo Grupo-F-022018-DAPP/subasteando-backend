@@ -31,8 +31,10 @@ public abstract class Bid {
     private Integer id;
     
     @ManyToOne(cascade= CascadeType.ALL)
+    @JsonIgnore
 	protected User user;
     @ManyToOne(cascade= CascadeType.ALL)
+    @JsonIgnore
 	protected Auction auction;
 	protected Integer price;
 	
@@ -60,6 +62,13 @@ public abstract class Bid {
 	}
 	public Integer getId() {
 		return this.id;
+	}
+	
+	public Integer getUserId() {
+		return this.user.getId();
+	}
+	public Integer getAuctionId() {
+		return this.auction.getId();
 	}
 
 }
