@@ -2,6 +2,7 @@ package unq.desapp.grupo_f.backend.model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -14,6 +15,7 @@ import javax.persistence.OneToMany;
 
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import unq.desapp.grupo_f.backend.model.bid.AutomaticBid;
@@ -37,8 +39,10 @@ public class User {
 	private String password;
 	private LocalDate birthDate;
 	@ManyToMany(targetEntity= Auction.class, cascade = CascadeType.ALL)
+	@JsonIgnore
 	private List<Auction> auctions;
 	@OneToMany(targetEntity= Auction.class, mappedBy="owner", cascade = CascadeType.ALL)
+	@JsonIgnore
 	private List<Auction> myAuctions;
 	
 	//UserDetails
@@ -59,6 +63,21 @@ public class User {
 	/* ******************************
 	 * 			Getters				*
 	 ********************************/
+	public List<Integer> getAuctionsIds(){
+		List<Integer> ids = new ArrayList<Integer>();
+		for(Auction auct: this.auctions) {
+			ids.add(auct.getId());
+		}
+		return ids;
+	}
+	public List<Integer> getMyAuctionsIds(){
+		List<Integer> ids = new ArrayList<Integer>();
+		for(Auction auct: this.myAuctions) {
+			ids.add(auct.getId());
+		}
+		return ids;
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -112,6 +131,12 @@ public class User {
 	}
 	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
+	}
+	public void setAuctions(List<Auction> auctions) {
+		this.auctions = auctions;
+	}
+	public void setMyAuctions(List<Auction> myAuctions) {
+		this.myAuctions = myAuctions;
 	}
 
 	public void setId(Integer userId) {

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import unq.desapp.grupo_f.backend.model.User;
 import unq.desapp.grupo_f.backend.services.UserService;
+import unq.desapp.grupo_f.backend.services.dto.UserDTO;
 
 @RestController
 public class UserController {
@@ -29,12 +30,12 @@ public class UserController {
 		return this.service.getUser(userId);
 	}
 	@PostMapping(path="/users/new")
-	public User newUser(@RequestBody User user) {
+	public User newUser(@RequestBody UserDTO user) {
 		return this.service.createUser(user);
 	}
 	@PutMapping(path="/users/{userId}")
-	public User updateUser(@PathVariable Integer userId, @RequestBody User user) {
-		return this.service.updateUser(userId, user);
+	public User updateUser(@PathVariable Integer userId, @RequestBody UserDTO user) {
+		return this.service.updateUser(userId, user.mapToUser());
 	}
 	@DeleteMapping("/users/{userId}")
 	public void deleteUser(@PathVariable Integer userId) {		

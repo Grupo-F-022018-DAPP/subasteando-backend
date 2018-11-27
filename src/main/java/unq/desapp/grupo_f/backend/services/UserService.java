@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import unq.desapp.grupo_f.backend.model.User;
 import unq.desapp.grupo_f.backend.model.exceptions.UserException;
 import unq.desapp.grupo_f.backend.repositories.UserRepository;
+import unq.desapp.grupo_f.backend.services.dto.UserDTO;
 
 @Service
 public class UserService {
@@ -23,8 +24,9 @@ public class UserService {
 		return repository.findById(userId).orElseThrow(() -> new UserException("User " + userId + " not found"));
 	}
 
-	public User createUser(User user) {
-		return this.repository.save(user);
+	public User createUser(UserDTO user) {
+		
+		return this.repository.save(user.mapToUser());
 	}
 
 	public User updateUser(Integer userId, User user) {
