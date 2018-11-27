@@ -64,10 +64,18 @@ public class User {
 	 * 			Getters				*
 	 ********************************/
 	public List<Integer> getAuctionsIds(){
-		return Arrays.asList((Integer[])this.auctions.stream().map(auct -> auct.getId()).toArray());
+		List<Integer> ids = new ArrayList<Integer>();
+		for(Auction auct: this.auctions) {
+			ids.add(auct.getId());
+		}
+		return ids;
 	}
 	public List<Integer> getMyAuctionsIds(){
-		return Arrays.asList((Integer[])this.myAuctions.stream().map(auct -> auct.getId()).toArray());
+		List<Integer> ids = new ArrayList<Integer>();
+		for(Auction auct: this.myAuctions) {
+			ids.add(auct.getId());
+		}
+		return ids;
 	}
 	
 	public String getName() {
@@ -123,6 +131,12 @@ public class User {
 	}
 	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
+	}
+	public void setAuctions(List<Auction> auctions) {
+		this.auctions = auctions;
+	}
+	public void setMyAuctions(List<Auction> myAuctions) {
+		this.myAuctions = myAuctions;
 	}
 
 	public void setId(Integer userId) {

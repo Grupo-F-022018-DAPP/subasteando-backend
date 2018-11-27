@@ -80,7 +80,11 @@ public class Auction {
 	 * 			Getters				*
 	 ********************************/
 	public List<Integer> getBiddingsIds() {
-		return Arrays.asList((Integer[])this.biddings.stream().map(bid -> bid.getId()).toArray());
+		List<Integer> ids = new ArrayList<Integer>();
+		for(Bid bid: this.biddings) {
+			ids.add(bid.getId());
+		}
+		return ids;
 	}
 	public Integer getOwnerId() {
 		return this.owner.getId();
