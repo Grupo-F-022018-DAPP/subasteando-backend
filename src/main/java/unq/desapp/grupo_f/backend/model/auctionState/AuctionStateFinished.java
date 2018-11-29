@@ -13,7 +13,9 @@ public class AuctionStateFinished extends AuctionState {
 
 	private static AuctionStateFinished instance; 
 	
-	private AuctionStateFinished() {}
+	private AuctionStateFinished() {
+		id=3;
+	}
 	static public AuctionStateFinished getInstance() {
 		if(instance == null) {
 			instance = new AuctionStateFinished();

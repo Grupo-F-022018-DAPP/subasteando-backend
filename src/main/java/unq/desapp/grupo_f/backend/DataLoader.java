@@ -17,6 +17,7 @@ import unq.desapp.grupo_f.backend.model.User;
 import unq.desapp.grupo_f.backend.model.builders.AuctionBuilder;
 import unq.desapp.grupo_f.backend.model.builders.UserBuilder;
 import unq.desapp.grupo_f.backend.model.utils.RandomStrings;
+import unq.desapp.grupo_f.backend.repositories.AuctionRepository;
 import unq.desapp.grupo_f.backend.repositories.UserRepository;
 
 @Component
@@ -24,19 +25,27 @@ public class DataLoader {
 
     @Autowired
     private UserRepository userRepo;
+    @Autowired
+    private AuctionRepository auctionRepo;
 
     //method invoked during the startup
     @PostConstruct
     public void loadData() {
     	List<User> users = createUsers();
-    	List<Auction> auctions = createAuctions(users.subList(0, 10));
+    	List<Auction> auctions = createAuctions(users.subList(0, 30));
     	
-    	List<Auction> inProgress = auctions.subList(0, 5);
+    	List<Auction> inProgress = auctions.subList(0, 25);
     	inProgress.stream().forEach(auct -> auct.startAuction());
     	
-    	createBids(users.subList(10, 100), inProgress);
+    	createBids(users.subList(30, 100), inProgress);
     	
+
+    	List<Auction> finalized = auctions.subList(0, 10);
+    	finalized.stream().forEach(auct -> auct.finishAuction());
+    	
+    	users.subList(20, 25).stream().forEach(user -> user.closeAuction(user.getMyAuctions().get(0)));
     	userRepo.saveAll(users);
+    	auctionRepo.saveAll(auctions);
 //      userRepository.save(new User("user"));
     }
     
@@ -64,13 +73,15 @@ public class DataLoader {
     	List<String> possibleTitleWords = Arrays.asList("Gato", "Con", "Botas", "Argentino", "Pulcro", "Random", "Why not", "Teclado", "Usado", "El lider", "NaNaNaNaNaNa");
     	
     	for(Integer i = 0; i < owners.size(); i++) {
+    		LocalDate start = LocalDate.now().plusDays(1l).plusDays(i*30l);
+    		LocalDateTime end = LocalDateTime.now().plusDays(1+ (i*30)).plusMonths(2+i).minusDays(new Random().nextInt(29));
     		auction = emptyBuilder.setOwner(owners.get(i))
     							  .setTitle(RandomStrings.generateRandomString(new Random(), possibleTitleWords, 3))
     							  .setDescription("Auction Nro: " + i)
     							  .setInitialPrice(100*(i*50))
     							  .setDirection("mi casa")
-    							  .setStartDate(LocalDate.now().plusDays(1+ (i*30)))
-    							  .setEndDate(LocalDateTime.now().plusDays(1+ (i*30)).plusMonths(2+i).minusDays(new Random().nextInt(29)))
+    							  .setEndDate(end)
+    							  .setStartDate(start)
     							  .build();
     		owners.get(i).createAuction(auction);
     		auctions.add(auction);

@@ -13,7 +13,9 @@ public class AuctionStateInProgress extends AuctionState {
 
 	private static AuctionStateInProgress instance; 
 	
-	private AuctionStateInProgress() {}
+	private AuctionStateInProgress() {
+		id = 2;
+	}
 	static public AuctionStateInProgress getInstance() {
 		if(instance == null) {
 			instance = new AuctionStateInProgress();

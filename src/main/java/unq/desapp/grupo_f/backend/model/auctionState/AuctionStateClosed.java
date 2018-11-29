@@ -13,7 +13,9 @@ public class AuctionStateClosed extends AuctionState {
 
 	private static AuctionStateClosed instance; 
 	
-	private AuctionStateClosed() {}
+	private AuctionStateClosed() {
+		id=4;
+	}
 	static public AuctionStateClosed getInstance() {
 		if(instance == null) {
 			instance = new AuctionStateClosed();

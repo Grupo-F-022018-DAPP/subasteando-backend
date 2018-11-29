@@ -3,6 +3,7 @@ package unq.desapp.grupo_f.backend.model.builders;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.Random;
 
 import unq.desapp.grupo_f.backend.model.Auction;
@@ -13,20 +14,23 @@ import unq.desapp.grupo_f.backend.model.utils.RandomStrings;
 
 public class AuctionBuilder {
 	
-	private Auction auction;
-	private enum Property {Title, Description, InitialPrice, StartDate, EndDate, Owner}
-	private HashMap<Property, Boolean> hasProperty;
+	private Optional<String> 		title;
+	private Optional<String> 		description;
+	private Optional<Integer> 		initialPrice;
+	private Optional<LocalDate> 	startDate;
+	private Optional<LocalDateTime> endDate;
+	private Optional<User> 			owner;
+	private Optional<String> 		direction;
 	
 	
 	public AuctionBuilder() {
-		this.auction = new Auction();
-		this.hasProperty = new HashMap<>();
-		this.hasProperty.put(Property.Title, false);
-		this.hasProperty.put(Property.Description, false);
-		this.hasProperty.put(Property.InitialPrice, false);
-		this.hasProperty.put(Property.StartDate, false);
-		this.hasProperty.put(Property.EndDate, false);
-		this.hasProperty.put(Property.Owner, false);
+		this.title 			= Optional.empty();
+		this.description 	= Optional.empty();
+		this.initialPrice 	= Optional.empty();
+		this.startDate 		= Optional.empty();
+		this.endDate 		= Optional.empty();
+		this.owner 			= Optional.empty();
+		this.direction 		= Optional.empty();
 	}
 
 
@@ -36,45 +40,37 @@ public class AuctionBuilder {
 	
 	public AuctionBuilder setTitle(String title) {
 		AuctionBuilder copy = this.copy();
-		copy.auction.setTitle(title);
-		copy.hasProperty.put(Property.Title, true);
+		copy.title = Optional.of(title);
 		return copy;
 	}
 	public AuctionBuilder setDescription(String description) {
 		AuctionBuilder copy = this.copy();
-		copy.auction.setDescription(description);
-		copy.hasProperty.put(Property.Description, true);
+		copy.description = Optional.of(description);
 		return copy;
 	}
 	public AuctionBuilder setInitialPrice(Integer initialPrice) {
 		AuctionBuilder copy = this.copy();
-		copy.auction.setInitialPrice(initialPrice);
-		copy.hasProperty.put(Property.InitialPrice, true);
+		copy.initialPrice = Optional.of(initialPrice);
 		return copy;
 	}
 	public AuctionBuilder setStartDate(LocalDate startDate) {
-		if(startDate == null) { throw new IncorrectParameterException("Please set a start date for the auction");}
 		AuctionBuilder copy = this.copy();
-		copy.auction.setStartDate(startDate);
-		copy.hasProperty.put(Property.StartDate, true);
+		copy.startDate = Optional.of(startDate);
 		return copy;
 	}
 	public AuctionBuilder setEndDate(LocalDateTime endDate) {
-		if(endDate == null) { throw new IncorrectParameterException("Please set a end date for the auction");}
 		AuctionBuilder copy = this.copy();
-		copy.auction.setEndDate(endDate);
-		copy.hasProperty.put(Property.EndDate, true);
+		copy.endDate = Optional.of(endDate);
 		return copy;
 	}
 	public AuctionBuilder setDirection(String direction) {
 		AuctionBuilder copy = this.copy();
-		copy.auction.setDirection(direction);
+		copy.direction = Optional.of(direction);
 		return copy;
 	}
 	public AuctionBuilder setOwner(User owner) {
 		AuctionBuilder copy = this.copy();
-		copy.auction.setOwner(owner);
-		copy.hasProperty.put(Property.Owner, true);
+		copy.owner = Optional.of(owner);
 		return copy;
 	}
 
@@ -89,6 +85,15 @@ public class AuctionBuilder {
 											+ ", an initial price, start date, finish date"
 											+ ", and owner. One or more of them are missing");
 		}
+		Auction auction = new Auction();
+		
+		auction.setTitle(title.get());
+		auction.setDescription(description.get());
+		auction.setInitialPrice(initialPrice.get());
+		auction.setEndDate(endDate.get());
+		auction.setStartDate(startDate.get());
+		auction.setOwner(owner.get());
+		direction.ifPresent(direction -> auction.setDirection(direction));
 		return auction;
 	}
 	
@@ -115,37 +120,20 @@ public class AuctionBuilder {
 	
 	private AuctionBuilder copy() {
 		AuctionBuilder copy = new AuctionBuilder();
-		if(this.hasProperty.get(Property.Title)) {
-			copy.auction.setTitle(this.auction.getTitle());
-		}
-		if(this.hasProperty.get(Property.Description)) {
-			copy.auction.setDescription(this.auction.getDescription());
-		}
-		if(this.hasProperty.get(Property.InitialPrice)) {
-			copy.auction.setInitialPrice(this.auction.getInitialPrice());
-		}
-		if(this.hasProperty.get(Property.StartDate)) {
-			copy.auction.setStartDate(this.auction.getStartDate());
-		}
-		if(this.hasProperty.get(Property.EndDate)) {
-			copy.auction.setEndDate(this.auction.getEndDate());
-		}
-		if(this.hasProperty.get(Property.Owner)) {
-			copy.auction.setOwner(this.auction.getOwner());
-		}
-		for (Property prop : Property.values()) {
-			copy.hasProperty.put(prop, this.hasProperty.get(prop));
-		}
-		copy.auction.setDirection(this.auction.getDirection());
+		copy.title = this.title;
+		copy.description = this.description;
+		copy.initialPrice = this.initialPrice;
+		copy.startDate = this.startDate;
+		copy.endDate = this.endDate;
+		copy.owner = this.owner;
+		copy.direction = this.direction;
 		
 		return copy;
 	}
 	private Boolean hasEverything() {
-		Boolean hasEverything = true;
-		for(Boolean bool: this.hasProperty.values()) {
-			hasEverything = hasEverything && bool; 
-		}
-		return hasEverything;
+		return title.isPresent() && description.isPresent() && 
+			   initialPrice.isPresent() && startDate.isPresent() && 
+			   endDate.isPresent() && owner.isPresent();
 	}
 
 }

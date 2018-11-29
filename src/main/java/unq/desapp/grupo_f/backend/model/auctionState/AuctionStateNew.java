@@ -14,7 +14,9 @@ public class AuctionStateNew extends AuctionState {
 
 	private static AuctionStateNew instance; 
 	
-	private AuctionStateNew() {}
+	private AuctionStateNew() {
+		id = 1;
+	}
 	static public AuctionStateNew getInstance() {
 		if(instance == null) {
 			instance = new AuctionStateNew();
