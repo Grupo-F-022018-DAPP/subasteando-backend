@@ -73,7 +73,7 @@ public class DataLoader {
     	List<String> possibleTitleWords = Arrays.asList("Gato", "Con", "Botas", "Argentino", "Pulcro", "Random", "Why not", "Teclado", "Usado", "El lider", "NaNaNaNaNaNa");
     	
     	for(Integer i = 0; i < owners.size(); i++) {
-    		LocalDate start = LocalDate.now().plusDays(1l).plusDays(i*30l);
+    		LocalDate start = LocalDate.now().plusDays(1l).plusDays(i);
     		LocalDateTime end = LocalDateTime.now().plusDays(1+ (i*30)).plusMonths(2+i).minusDays(new Random().nextInt(29));
     		auction = emptyBuilder.setOwner(owners.get(i))
     							  .setTitle(RandomStrings.generateRandomString(new Random(), possibleTitleWords, 3))

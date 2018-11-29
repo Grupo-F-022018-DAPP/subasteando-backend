@@ -1,10 +1,17 @@
 package unq.desapp.grupo_f.backend.services;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import unq.desapp.grupo_f.backend.model.Auction;
 import unq.desapp.grupo_f.backend.model.User;
+import unq.desapp.grupo_f.backend.model.auctionState.AuctionStateInProgress;
 import unq.desapp.grupo_f.backend.model.builders.AuctionBuilder;
 import unq.desapp.grupo_f.backend.model.exceptions.AuctionException;
 import unq.desapp.grupo_f.backend.model.exceptions.UserException;
@@ -61,6 +68,16 @@ public class AuctionService {
 		auction.changeStateTo(auctionDTO.getState());
 		repository.save(auction);
 		return auction;
+	}
+
+	public List<Auction> getRecentAuctions(Integer pageAmount, Integer pageIndex) {
+
+		
+		
+		List<Auction> auctions = new ArrayList<Auction>();
+		Pageable page = PageRequest.of(pageIndex, pageAmount);
+		auctions.addAll(repository.findAuctionsInProgress(page).getContent());
+		return auctions;
 	}
 	
 	
