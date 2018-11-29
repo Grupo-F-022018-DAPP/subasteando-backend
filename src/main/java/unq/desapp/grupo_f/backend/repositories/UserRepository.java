@@ -13,6 +13,7 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     @Override
     List<User> findAll();
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public User save(User user);
 	@Override

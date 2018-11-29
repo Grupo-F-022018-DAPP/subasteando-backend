@@ -1,11 +1,9 @@
 package unq.desapp.grupo_f.backend.model.builders;
 
 import java.util.Optional;
-import java.util.Random;
 
 import unq.desapp.grupo_f.backend.model.Auction;
 import unq.desapp.grupo_f.backend.model.User;
-import unq.desapp.grupo_f.backend.model.bid.AutomaticBid;
 import unq.desapp.grupo_f.backend.model.bid.ManualBid;
 import unq.desapp.grupo_f.backend.model.exceptions.BuilderException;
 

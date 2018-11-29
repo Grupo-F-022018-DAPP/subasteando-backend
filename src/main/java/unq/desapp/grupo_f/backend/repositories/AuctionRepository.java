@@ -8,6 +8,7 @@ import unq.desapp.grupo_f.backend.model.Auction;
 
 public interface AuctionRepository extends CrudRepository<Auction, Integer> {
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public Auction save(Auction auct);
 	@Override

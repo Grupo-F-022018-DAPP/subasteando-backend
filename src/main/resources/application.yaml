@@ -3,6 +3,6 @@ spring:
     hibernate:
       ddl-auto: create
   datasource:
-    url: jdbc:mysql://localhost:3306/subasteando_db
+    url: "jdbc:mysql://localhost:3306/subasteando_db"
     username: springuser
     password: root
