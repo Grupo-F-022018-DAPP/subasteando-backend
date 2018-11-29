@@ -69,7 +69,7 @@ public class Auction {
 		this.initialPrice = 0;
 		this.startDate = LocalDate.now().plusDays(1l);
 		this.endDate = LocalDateTime.now().plusYears(1l);
-		this.state = new AuctionStateNew();
+		this.state = AuctionStateNew.getInstance();
 		this.biddings = new ArrayList<Bid>();
 		this.actualPrice = 0;
 	}
@@ -215,14 +215,14 @@ public class Auction {
 		 * Deberia agregarse a una cola para comenzarla mas tarde 
 		 */
 		if(this.isNew() && this.owner.canStartAnAuction()) {
-			this.state = new AuctionStateInProgress();
+			this.state = AuctionStateInProgress.getInstance();
 		}else {
 			throw new AuctionStateException("This auction cant start");
 		}
 	}
 	public void finishAuction() {
 		if(this.isInProgress()) {
-			this.state = new AuctionStateFinished();
+			this.state = AuctionStateFinished.getInstance();
 		}else {
 			throw new AuctionStateException("An auction that isnt in progress, can not finish");
 		}
@@ -231,7 +231,7 @@ public class Auction {
 		if(this.isFinished()) {
 			throw new AuctionStateException("An auction that has already finished, can not close");
 		}
-		this.state = new AuctionStateClosed();
+		this.state = AuctionStateClosed.getInstance();
 	}
 
 	public void addBid(Bid bid) {

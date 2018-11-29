@@ -15,6 +15,7 @@ import unq.desapp.grupo_f.backend.model.bid.Bid;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "state_type")
 public abstract class AuctionState {
+	
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;

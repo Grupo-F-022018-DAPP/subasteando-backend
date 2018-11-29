@@ -11,6 +11,16 @@ import unq.desapp.grupo_f.backend.model.exceptions.AuctionStateException;
 @Entity
 public class AuctionStateFinished extends AuctionState {
 
+	private static AuctionStateFinished instance; 
+	
+	private AuctionStateFinished() {}
+	static public AuctionStateFinished getInstance() {
+		if(instance == null) {
+			instance = new AuctionStateFinished();
+		}
+		return instance;
+	}
+	
 	@JsonIgnore
 	@Override
 	public Boolean isNew() {
