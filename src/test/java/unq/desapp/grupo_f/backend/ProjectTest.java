@@ -15,7 +15,6 @@ import java.util.regex.Pattern;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,7 +23,6 @@ import org.springframework.context.annotation.ClassPathScanningCandidateComponen
 import org.springframework.core.type.filter.RegexPatternTypeFilter;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.util.ClassUtils;
 
 import unq.desapp.grupo_f.backend.repositories.AuctionRepository;
 import unq.desapp.grupo_f.backend.repositories.BidRepository;
@@ -67,7 +65,6 @@ public class ProjectTest {
 		try {
 			List<Class<?>> models = getAllModelClasses();
 			List<Class<?>> builders = getAllBuildersClassesForModels(models);
-			List<Object> objects = new ArrayList<Object>();
 			Object instance;
 			Method buildMethod;
 			Object buildedObject;

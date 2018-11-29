@@ -8,16 +8,18 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
+import org.hibernate.usertype.UserType;
+
 import unq.desapp.grupo_f.backend.model.Auction;
 import unq.desapp.grupo_f.backend.model.bid.Bid;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "state_type")
-public abstract class AuctionState {
+public abstract class AuctionState{
+	
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private Long id;
+	protected Integer id;
     public abstract String 	getName();
 	public abstract Boolean isNew();
 	public abstract Boolean isInProgress();

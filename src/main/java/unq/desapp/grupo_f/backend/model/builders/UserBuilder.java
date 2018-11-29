@@ -1,28 +1,28 @@
 package unq.desapp.grupo_f.backend.model.builders;
 
 import java.time.LocalDate;
+import java.util.Optional;
 import java.util.Random;
 
 import unq.desapp.grupo_f.backend.model.User;
 import unq.desapp.grupo_f.backend.model.exceptions.BuilderException;
+import unq.desapp.grupo_f.backend.model.utils.RandomStrings;
 
 public class UserBuilder {
 	
-	private User user;
-	private Boolean hasName;
-	private Boolean hasSurname;
-	private Boolean hasEmail;
-	private Boolean hasPassword;
-	private Boolean hasBirthDate;
+	private Optional<String> name;
+	private Optional<String> surname;
+	private Optional<String> email;
+	private Optional<String> password;
+	private Optional<LocalDate> birthDate;
 	
 	
 	public UserBuilder() {
-		this.user = new User();
-		this.hasName = false;
-		this.hasSurname = false;
-		this.hasEmail = false;
-		this.hasPassword = false;
-		this.hasBirthDate = false;
+		name 		= Optional.empty();
+		surname 	= Optional.empty();
+		email	 	= Optional.empty();
+		password 	= Optional.empty();
+		birthDate	= Optional.empty();
 	}
 
 	/* ******************************
@@ -31,34 +31,29 @@ public class UserBuilder {
 	
 	public UserBuilder setName(String name) {
 		UserBuilder next = this.copy();
-		next.user.setName(name);
-		next.hasName = true;
+		next.name = Optional.of(name);
 		return next;
 	}
 	
 	public UserBuilder setSurname(String surname) {
 		UserBuilder next = this.copy();
-		next.user.setSurname(surname);
-		next.hasSurname = true;
+		next.surname = Optional.of(surname);
 		return next;
 	}
 	
 	public UserBuilder setEmail(String email) {
 		UserBuilder next = this.copy();
-		next.user.setEmail(email);
-		next.hasEmail = true;
+		next.email = Optional.of(email);
 		return next;
 	}
 	public UserBuilder setPassword(String password) {
 		UserBuilder next = this.copy();
-		next.user.setPassword(password);;
-		next.hasPassword = true;
+		next.password = Optional.of(password);
 		return next;
 	}
 	public UserBuilder setBirthDate(LocalDate birthDate) {
 		UserBuilder next = this.copy();
-		next.user.setBirthDate(birthDate);
-		next.hasBirthDate = true;
+		next.birthDate = Optional.of(birthDate);
 		return next;
 	}
 
@@ -70,6 +65,12 @@ public class UserBuilder {
 		if(!this.hasEverything()) {
 			throw new BuilderException("An user needs Name, Surname, Email, Passwrod, and BirthDate. One or more of them are missing");
 		}
+		User user = new User();
+		user.setName(name.get());
+		user.setSurname(surname.get());
+		user.setEmail(email.get());
+		user.setPassword(password.get());
+		user.setBirthDate(birthDate.get());
 		return user;
 	}
 	
@@ -79,10 +80,10 @@ public class UserBuilder {
 		Random random = new Random();
 		String possibleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 		
-		randomUser.setName(this.generateRandomString(random, possibleChars, 10));
-		randomUser.setSurname(this.generateRandomString(random, possibleChars, 10));
-		randomUser.setEmail(this.generateRandomString(random, possibleChars, 8) + "@gmail.com");
-		randomUser.setPassword(this.generateRandomString(random, possibleChars, 8));
+		randomUser.setName(RandomStrings.generateRandomString(random, possibleChars, 10));
+		randomUser.setSurname(RandomStrings.generateRandomString(random, possibleChars, 10));
+		randomUser.setEmail(RandomStrings.generateRandomString(random, possibleChars, 8) + "@gmail.com");
+		randomUser.setPassword(RandomStrings.generateRandomString(random, possibleChars, 8));
 		randomUser.setBirthDate(LocalDate.now().minusYears(random.nextInt(50)));
 		
 		return randomUser;
@@ -95,32 +96,18 @@ public class UserBuilder {
 	 ********************************/
 	
 	private Boolean hasEverything() {
-		return hasName && hasSurname && hasEmail && hasPassword && hasBirthDate;
+		return this.name.isPresent() && surname.isPresent() && email.isPresent() && password.isPresent() && birthDate.isPresent();
 	}
 	private UserBuilder copy() {
 		UserBuilder copy = new UserBuilder();
 		
-		copy.user.setName(this.user.getName());
-		copy.user.setSurname(this.user.getSurname());
-		copy.user.setEmail(this.user.getEmail());
-		copy.user.setPassword(this.user.getPassword());
-		copy.user.setBirthDate(this.user.getBirthDate());
-		
-		copy.hasName = this.hasName;
-		copy.hasSurname = this.hasSurname;
-		copy.hasEmail = this.hasEmail;
-		copy.hasPassword = this.hasPassword;
-		copy.hasBirthDate = this.hasBirthDate;
+		copy.name = name;
+		copy.surname = surname;
+		copy.email = email;
+		copy.password = password;
+		copy.birthDate = birthDate;
 		
 		return copy;
-	}
-	
-	private String generateRandomString(Random random, String possibleChars, Integer length) {
-		char[] text = new char[length];
-        for (int i = 0; i < length; i++) {
-            text[i] = possibleChars.charAt(random.nextInt(possibleChars.length()));
-        }
-        return new String(text);
 	}
 	
 	

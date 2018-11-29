@@ -1,5 +1,7 @@
 package unq.desapp.grupo_f.backend.services.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +31,10 @@ public class AuctionController {
 	@GetMapping("/auctions/{auctionId}")
 	public Auction getAuction(@PathVariable Integer auctionId) {		
 		return this.service.getAuction(auctionId);
+	}
+	@GetMapping("/auctions/recent")
+	public List<Auction> getRecentAuctions(@RequestParam Integer pageAmount, @RequestParam Integer pageIndex){
+		return this.service.getRecentAuctions(pageAmount, pageIndex);
 	}
 	
 	@PostMapping(path="/auctions/new")

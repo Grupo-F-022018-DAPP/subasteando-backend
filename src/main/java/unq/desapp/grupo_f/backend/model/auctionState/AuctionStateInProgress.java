@@ -10,6 +10,19 @@ import unq.desapp.grupo_f.backend.model.bid.Bid;
 @Entity
 public class AuctionStateInProgress extends AuctionState {
 
+
+	private static AuctionStateInProgress instance; 
+	
+	private AuctionStateInProgress() {
+		id = 2;
+	}
+	static public AuctionStateInProgress getInstance() {
+		if(instance == null) {
+			instance = new AuctionStateInProgress();
+		}
+		return instance;
+	}
+	
 	@JsonIgnore
 	@Override
 	public Boolean isNew() {
