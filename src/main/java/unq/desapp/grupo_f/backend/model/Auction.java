@@ -215,15 +215,15 @@ public class Auction {
 
 	@JsonIgnore
 	public Boolean isNew() {
-		return this.state.isNew();
+		return getState().isNew();
 	}
 	@JsonIgnore
 	public Boolean isInProgress(){
-		return this.state.isInProgress();
+		return getState().isInProgress();
 	}
 	@JsonIgnore
 	public Boolean isFinished(){
-		return this.state.isFinished();
+		return getState().isFinished();
 	}
 	public void startAuction() {
 		/*TODO: 5 subastas en progreso
