@@ -1,6 +1,7 @@
 package unq.desapp.grupo_f.backend.services;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class AuctionService {
 	@Autowired
 	private UserRepository userRepo;
 
-	public Iterable<Auction> getAll() {
+	public List<Auction> getAll() {
 		return repository.findAll();
 	}
 	

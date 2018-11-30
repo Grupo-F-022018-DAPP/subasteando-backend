@@ -26,7 +26,7 @@ public class UserController {
 	public List<User> getAll(){
 		return service.getAll();
 	}
-	@GetMapping(path="/users")
+	@GetMapping(path="/users/page")
 	public List<User> getAllPaginated(@RequestParam Integer pageAmount, @RequestParam Integer pageIndex){
 		return service.getAllPaginated(pageAmount, pageIndex);
 	}

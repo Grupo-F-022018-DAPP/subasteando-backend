@@ -29,7 +29,11 @@ public class DataLoader {
     //method invoked during the startup
     @PostConstruct
     public void loadData() {
-    	List<User> users = createUsers();
+    	createRandomData();
+    }
+
+	private void createRandomData() {
+		List<User> users = createUsers();
     	List<Auction> auctions = createAuctions(users.subList(0, 30));
     	
     	List<Auction> inProgress = auctions.subList(0, 25);
@@ -42,10 +46,10 @@ public class DataLoader {
     	finalized.stream().forEach(auct -> auct.finishAuction());
     	
     	users.subList(20, 25).stream().forEach(user -> user.closeAuction(user.getMyAuctions().get(0)));
+
     	userRepo.saveAll(users);
     	auctionRepo.saveAll(auctions);
-//      userRepository.save(new User("user"));
-    }
+	}
     
     private List<User> createUsers(){
     	UserBuilder emptyBuilder = new UserBuilder();
@@ -68,6 +72,8 @@ public class DataLoader {
     	List<Auction> auctions = new ArrayList<Auction>();
     	AuctionBuilder emptyBuilder = new AuctionBuilder();
     	Auction auction;
+    	Auction finalized = new Auction();
+    	Auction inProgress = new Auction();
     	List<String> possibleTitleWords = Arrays.asList("Gato", "Con", "Botas", "Argentino", "Pulcro", "Random", "Why not", "Teclado", "Usado", "El lider", "NaNaNaNaNaNa");
     	
     	for(Integer i = 0; i < owners.size(); i++) {
@@ -84,6 +90,25 @@ public class DataLoader {
     		owners.get(i).createAuction(auction);
     		auctions.add(auction);
     	}
+
+    	finalized.setOwner(owners.get(29));
+    	finalized.setTitle("hardcodedAuctionFinalized");
+    	finalized.setInitialPrice(10000);
+    	finalized.setDirection("noDirection");
+    	finalized.setDescription("should be finalized");
+    	finalized.setDates(LocalDate.now().minusMonths(1), LocalDateTime.now().minusDays(1));
+    	owners.get(29).createAuction(finalized);
+    	auctions.add(finalized);
+    	
+    	inProgress.setOwner(owners.get(29));
+    	inProgress.setTitle("hardcodedAuctionInProgress");
+    	inProgress.setInitialPrice(10000);
+    	inProgress.setDirection("noDirection");
+    	inProgress.setDescription("should be in progress");
+    	inProgress.setDates(LocalDate.now().minusMonths(1), LocalDateTime.now().plusMonths(1));
+    	owners.get(29).createAuction(inProgress);
+    	auctions.add(inProgress);
+    	
     	return auctions;
     }
     

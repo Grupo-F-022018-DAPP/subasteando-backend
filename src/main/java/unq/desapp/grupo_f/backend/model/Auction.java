@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -49,6 +50,7 @@ public class Auction {
 	private LocalDate startDate;
 	private LocalDateTime endDate;
 	@OneToOne(cascade= CascadeType.ALL)
+	@JsonIgnore
 	private AuctionState state;
 	
 	@OneToMany(targetEntity=Bid.class, mappedBy="auction", cascade= CascadeType.ALL)
@@ -110,8 +112,10 @@ public class Auction {
 	public LocalDateTime getEndDate() {
 		return endDate;
 	}	
+	@JsonGetter
 	public AuctionState getState() {
-		return state;
+		this.state = AuctionState.stateFor(this, this.state);
+		return this.state;
 	}
 	public Integer getActualPrice() {
 		return actualPrice;
@@ -160,21 +164,33 @@ public class Auction {
 		this.actualPrice = initialPrice;
 	}
 	public void setStartDate(LocalDate startDate) {
-		if(!this.state.isNew()) {
+		if(!this.state.isNew() || this.state.isClosed()) {
 			throw new AuctionStateException("This auction has already started. Is is not possible to change the Start date.");
 		}
-		if(!startDate.isAfter(LocalDate.now())
-				|| !startDate.isBefore(this.endDate.toLocalDate().minusDays(1l))) {
+		if(!areCorrectDates(startDate, endDate)) {
 			throw new IncorrectParameterException("The Start date for the Auction, must be after today, and must be 2 diays before the end Date.");
 		}
 		
 		this.startDate = startDate;
 	}
 	public void setEndDate(LocalDateTime endDate) {
-		if(!this.startDate.isBefore(endDate.toLocalDate().minusDays(1l))) {
+		if(this.state.isFinished() || this.state.isClosed()) {
+			throw new AuctionStateException("This auction is finished. Is is not possible to change the End date.");
+		}
+		if(!areCorrectDates(this.startDate, endDate)) {
 			throw new IncorrectParameterException("The End date for the Auction, must be 2 days after the start date, at minimum");
 		}
 		this.endDate = endDate;
+	}
+	
+	public void setDates(LocalDate startDate, LocalDateTime endDate) {
+		this.startDate = startDate;
+		this.endDate = endDate;
+	}
+
+
+	public boolean areCorrectDates(LocalDate startDate, LocalDateTime endDate) {
+		return startDate.isAfter(LocalDate.now()) && this.startDate.isBefore(endDate.toLocalDate().minusDays(1l)) ;
 	}
 	public void setActualPrice(Integer actualPrice) {
 		this.actualPrice = actualPrice;

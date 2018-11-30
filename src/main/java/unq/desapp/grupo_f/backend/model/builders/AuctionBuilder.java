@@ -88,6 +88,9 @@ public class AuctionBuilder {
 		auction.setTitle(title.get());
 		auction.setDescription(description.get());
 		auction.setInitialPrice(initialPrice.get());
+		
+		auction.areCorrectDates(startDate.get(), endDate.get());
+		
 		auction.setEndDate(endDate.get());
 		auction.setStartDate(startDate.get());
 		auction.setOwner(owner.get());
