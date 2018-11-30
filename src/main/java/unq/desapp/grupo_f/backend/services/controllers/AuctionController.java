@@ -22,30 +22,34 @@ public class AuctionController {
 	@Autowired 
 	private AuctionService service;
 	
+	//{{url}} = http://localhost:8080
 	
-	@GetMapping(path="/auctions")
+	@GetMapping(path="/auctions")				//{{url}}/auctions
 	public Iterable<Auction> getAll(){
-		System.out.println("auctions all");
 		return service.getAll();
 	}
-	@GetMapping("/auctions/{auctionId}")
+	@GetMapping(path="/auctions/page")				//{{url}}/auctions/page?pageAmount=10&pageIndex=0
+	public Iterable<Auction> getAllPaginated(@RequestParam Integer pageAmount, @RequestParam Integer pageIndex){
+		return service.getAllPaginated(pageAmount, pageIndex);
+	}
+	@GetMapping("/auctions/{auctionId}")		//{{url}}/auctions/1
 	public Auction getAuction(@PathVariable Integer auctionId) {		
 		return this.service.getAuction(auctionId);
 	}
-	@GetMapping("/auctions/recent")
+	@GetMapping("/auctions/recent")				//{{url}}/auctions/recent?pageAmount=10&pageIndex=0
 	public List<Auction> getRecentAuctions(@RequestParam Integer pageAmount, @RequestParam Integer pageIndex){
 		return this.service.getRecentAuctions(pageAmount, pageIndex);
 	}
 	
-	@PostMapping(path="/auctions/new")
+	@PostMapping(path="/auctions/new")			//{{url}}/auctions/new?userId=1
 	public Auction newAuction(@RequestParam Integer userId, @RequestBody AuctionDTO auctionDTO) {
 		return this.service.createAuction(auctionDTO, userId);
 	}
-	@PutMapping(path="/auctions/{auctionId}")
+	@PutMapping(path="/auctions/{auctionId}")	//{{url}}/auctions/1
 	public Auction updateAuction(@PathVariable Integer auctionId, @RequestBody AuctionDTO auctionDTO) {
 		return this.service.updateAuction(auctionId, auctionDTO);
 	}
-	@DeleteMapping("/auctions/{auctionId}")
+	@DeleteMapping("/auctions/{auctionId}")		//{{url}}/auctions/1
 	public void deleteAuction(@PathVariable Integer auctionId) {		
 		this.service.deleteAuction(auctionId);
 	}

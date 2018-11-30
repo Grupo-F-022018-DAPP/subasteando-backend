@@ -1,6 +1,7 @@
 package unq.desapp.grupo_f.backend.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import unq.desapp.grupo_f.backend.model.Auction;
@@ -77,6 +78,19 @@ public class BidService {
 	}
 	public void deleteBid(Integer bidId) {
 		this.bidRepo.deleteById(bidId);
+	}
+
+	public Iterable<Bid> getAllPaginated(Integer pageAmount, Integer pageIndex) {
+		// TODO Auto-generated method stub
+		return bidRepo.findAll(PageRequest.of(pageIndex, pageAmount)).getContent();
+	}
+
+	public Iterable<Bid> getAllBidsOfUserPaginated(Integer userId, Integer pageAmount, Integer pageIndex) {
+		return bidRepo.findAllByUserId(userId, PageRequest.of(pageIndex, pageAmount)).getContent();
+	}
+
+	public Iterable<Bid> getAllBidsOfAuctionPaginated(Integer auctionId, Integer pageAmount, Integer pageIndex) {
+		return bidRepo.findAllByAuctionId(auctionId, PageRequest.of(pageIndex, pageAmount)).getContent();
 	}
 
 	
