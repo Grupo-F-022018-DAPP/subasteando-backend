@@ -2,14 +2,12 @@ package unq.desapp.grupo_f.backend.model.builders;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.Optional;
 import java.util.Random;
 
 import unq.desapp.grupo_f.backend.model.Auction;
 import unq.desapp.grupo_f.backend.model.User;
 import unq.desapp.grupo_f.backend.model.exceptions.AuctionBuilderException;
-import unq.desapp.grupo_f.backend.model.exceptions.IncorrectParameterException;
 import unq.desapp.grupo_f.backend.model.utils.RandomStrings;
 
 public class AuctionBuilder {

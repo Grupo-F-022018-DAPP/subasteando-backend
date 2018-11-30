@@ -1,4 +1,4 @@
-package unq.desapp.grupo_f.backend;
+package unq.desapp.grupo_f.backend.repositories;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -17,8 +17,6 @@ import unq.desapp.grupo_f.backend.model.User;
 import unq.desapp.grupo_f.backend.model.builders.AuctionBuilder;
 import unq.desapp.grupo_f.backend.model.builders.UserBuilder;
 import unq.desapp.grupo_f.backend.model.utils.RandomStrings;
-import unq.desapp.grupo_f.backend.repositories.AuctionRepository;
-import unq.desapp.grupo_f.backend.repositories.UserRepository;
 
 @Component
 public class DataLoader {

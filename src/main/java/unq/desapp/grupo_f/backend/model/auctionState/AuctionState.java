@@ -2,13 +2,9 @@ package unq.desapp.grupo_f.backend.model.auctionState;
 
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-
-import org.hibernate.usertype.UserType;
 
 import unq.desapp.grupo_f.backend.model.Auction;
 import unq.desapp.grupo_f.backend.model.bid.Bid;
