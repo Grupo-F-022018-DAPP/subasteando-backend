@@ -3,6 +3,7 @@ package unq.desapp.grupo_f.backend.services.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,26 +24,32 @@ public class UserController {
 	private UserService service;
 	
 	@GetMapping(path="/users")
+	@Transactional
 	public List<User> getAll(){
 		return service.getAll();
 	}
 	@GetMapping(path="/users/page")
+	@Transactional
 	public List<User> getAllPaginated(@RequestParam Integer pageAmount, @RequestParam Integer pageIndex){
 		return service.getAllPaginated(pageAmount, pageIndex);
 	}
 	@GetMapping("/users/{userId}")
+	@Transactional
 	public User getUser(@PathVariable Integer userId) {		
 		return this.service.getUser(userId);
 	}
 	@PostMapping(path="/users/new")
+	@Transactional
 	public User newUser(@RequestBody UserDTO user) {
 		return this.service.createUser(user);
 	}
 	@PutMapping(path="/users/{userId}")
+	@Transactional
 	public User updateUser(@PathVariable Integer userId, @RequestBody UserDTO user) {
 		return this.service.updateUser(userId, user.mapToUser());
 	}
 	@DeleteMapping("/users/{userId}")
+	@Transactional
 	public void deleteUser(@PathVariable Integer userId) {		
 		this.service.deleteUser(userId);
 	}

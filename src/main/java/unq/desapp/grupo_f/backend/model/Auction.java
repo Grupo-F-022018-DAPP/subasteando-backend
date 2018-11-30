@@ -4,7 +4,11 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
@@ -272,6 +276,27 @@ public class Auction {
 		if(state == States.Closed && !this.state.isFinished()) {
 			this.closeAuction();
 		}
+	}
+
+
+	public List<Auction> popularAuctions() {
+		/* Deveria devolver las 10 subastas en las que los usuarios que participaron
+		 * en esta subasta, tambien participaron, por orden de cantidad de participaciones
+		 */
+		List<User> participants = biddings.stream().map(bid -> bid.getUser()).collect(Collectors.toList());
+		Map<Auction, Integer> partAuctions = new HashMap<Auction, Integer>();
+		participants.stream().forEach(part -> {
+			part.getAuctions().stream().forEach(auct -> 
+				partAuctions.put(auct, partAuctions.getOrDefault(auct, 0) + 1)
+			);
+		});
+		partAuctions.remove(this);
+		List<Auction> sortedAuctions = partAuctions.entrySet().stream()
+			    .sorted(Comparator.comparing(Map.Entry::getValue, Comparator.reverseOrder()))
+			    .limit(10)
+			    .map(Map.Entry::getKey)
+			    .collect(Collectors.toList());
+		return sortedAuctions;
 	}
 
 

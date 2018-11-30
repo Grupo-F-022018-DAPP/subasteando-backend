@@ -1,17 +1,24 @@
 package unq.desapp.grupo_f.backend.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import unq.desapp.grupo_f.backend.model.auctionState.AuctionStateInProgress;
 import unq.desapp.grupo_f.backend.model.bid.ManualBid;
+import unq.desapp.grupo_f.backend.model.builders.AuctionBuilder;
 import unq.desapp.grupo_f.backend.model.exceptions.AuctionStateException;
 import unq.desapp.grupo_f.backend.model.exceptions.IncorrectParameterException;
 
@@ -289,6 +296,59 @@ public class AuctionTest {
 		finishedAuction.finishAuction();
 		
 		finishedAuction.addBid(bid);
+	}
+	
+	@Test
+	public void testUnaSubastaTieneSubastasPopularesParaRecomendar() {
+		AuctionBuilder builder = new AuctionBuilder();
+		Auction auctionPrincipal = builder.buildRandom();
+		Auction auction1 = builder.buildRandom();
+		Auction auction2 = builder.buildRandom();
+		Auction auction3 = builder.buildRandom();
+		
+		auctionPrincipal.setState(AuctionStateInProgress.getInstance());
+		auction1.setState(AuctionStateInProgress.getInstance());
+		auction2.setState(AuctionStateInProgress.getInstance());
+		auction3.setState(AuctionStateInProgress.getInstance());
+		
+		User user1 = new User();
+		User user2 = new User();
+		User user3 = new User();
+		
+		auction1.setOwner(mockedUser);
+		auction2.setOwner(mockedUser);
+		auction3.setOwner(mockedUser);
+		mockedUser.createAuction(auction1);
+		mockedUser.createAuction(auction2);
+		mockedUser.createAuction(auction3);
+		
+
+		user1.submitManualBid(auctionPrincipal);
+		user2.submitManualBid(auctionPrincipal);
+		user3.submitManualBid(auctionPrincipal);
+		
+		user1.submitManualBid(auction3);
+		user2.submitManualBid(auction3);
+		user3.submitManualBid(auction3);
+		
+		user1.submitManualBid(auction2);
+		user2.submitManualBid(auction2);
+		
+		user1.submitManualBid(auction1);
+		
+		
+		
+		List<Auction> populars = auctionPrincipal.popularAuctions();
+
+//		auctionPrincipal.setTitle("---------principal");
+//		auction1		.setTitle("---------menos popular");
+//		auction2		.setTitle("---------medio popular");
+//		auction3		.setTitle("---------mas popular");
+//		System.out.println(auctionPrincipal.popularAuctions().stream().map(auc -> auc.getTitle()).collect(Collectors.toList()));
+		
+		assertEquals(auction3, populars.get(0));
+		assertEquals(auction2, populars.get(1));
+		assertEquals(auction1, populars.get(2));
 	}
 	
 }
