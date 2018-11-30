@@ -42,8 +42,6 @@ public class BidController {
 	public Iterable<Bid> getAllOfAuctionPaginated(@RequestParam Integer auctionId, @RequestParam Integer pageAmount, @RequestParam Integer pageIndex){
 		return this.service.getAllBidsOfAuctionPaginated(auctionId, pageAmount, pageIndex);
 	}
-	
-	
 	@GetMapping(path= "/bids/{bidId}")		//{{url}}/bids/1
 	public Bid getBid(@PathVariable Integer bidId) {
 		return this.service.getBid(bidId);
