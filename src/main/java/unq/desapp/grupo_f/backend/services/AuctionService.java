@@ -83,6 +83,10 @@ public class AuctionService {
 		return auctions;
 	}
 
+	public List<Auction> popularAuctionsForAuction(Integer auctionId) {		
+		return this.getAuction(auctionId).popularAuctions();
+	}
+
 	
 	
 	

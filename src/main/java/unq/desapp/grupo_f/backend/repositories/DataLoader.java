@@ -11,6 +11,7 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import unq.desapp.grupo_f.backend.model.Auction;
 import unq.desapp.grupo_f.backend.model.User;
@@ -28,6 +29,7 @@ public class DataLoader {
 
     //method invoked during the startup
     @PostConstruct
+    @Transactional
     public void loadData() {
     	createRandomData();
     }

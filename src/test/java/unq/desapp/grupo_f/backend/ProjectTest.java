@@ -23,6 +23,7 @@ import org.springframework.context.annotation.ClassPathScanningCandidateComponen
 import org.springframework.core.type.filter.RegexPatternTypeFilter;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import unq.desapp.grupo_f.backend.repositories.AuctionRepository;
 import unq.desapp.grupo_f.backend.repositories.BidRepository;
@@ -61,6 +62,7 @@ public class ProjectTest {
 	}
 	
 	@Test
+	@Transactional
 	public void testAllModelObjectsAreSavedCorrectly() {
 		try {
 			List<Class<?>> models = getAllModelClasses();
@@ -193,7 +195,8 @@ public class ProjectTest {
 		List<String> exclude = new ArrayList<String>(Arrays.asList(	".*State.*",
 																	".*Builder.*", 
 																	".*Exception.*", 
-																	".*Test.*"));
+																	".*Test.*",
+																	".*RandomStrings.*"));
 		
 		List<Class<?>> classes = getClassesInPackage("unq.desapp.grupo_f.backend.model", include, exclude);
 		return classes;

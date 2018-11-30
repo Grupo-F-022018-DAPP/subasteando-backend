@@ -105,8 +105,8 @@ public class AuctionBuilder {
 		randomAuction.setInitialPrice(random.nextInt(1000)  + 10);
 		randomAuction.setDescription(RandomStrings.generateRandomString(random, possibleChars, 15));
 		randomAuction.setDirection(RandomStrings.generateRandomString(random, possibleChars, 10));
-		randomAuction.setStartDate(LocalDate.now().plusDays(random.nextInt(29)));
-		randomAuction.setEndDate(LocalDateTime.now().plusMonths(random.nextInt(12)));
+		randomAuction.setEndDate(LocalDateTime.now().plusMonths(1).plusMonths(random.nextInt(12)));
+		randomAuction.setStartDate(LocalDate.now().plusDays(1).plusDays(random.nextInt(29)));
 		randomAuction.setTitle(RandomStrings.generateRandomString(random, possibleChars, 11));
 		randomAuction.setOwner(new UserBuilder().buildRandom());
 		
