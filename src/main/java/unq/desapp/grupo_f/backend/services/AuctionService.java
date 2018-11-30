@@ -29,7 +29,7 @@ public class AuctionService {
 		return repository.findAll();
 	}
 	
-	public List<Auction> getPage(Integer pageAmount, Integer pageIndex) {
+	public List<Auction> getAllPaginated(Integer pageAmount, Integer pageIndex) {
 		List<Auction> auctions = new ArrayList<Auction>();
 		Pageable page = PageRequest.of(pageIndex, pageAmount);
 		auctions.addAll(repository.findAll(page).getContent());

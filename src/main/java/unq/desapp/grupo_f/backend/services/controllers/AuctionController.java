@@ -29,8 +29,8 @@ public class AuctionController {
 		return service.getAll();
 	}
 	@GetMapping(path="/auctions/page")				//{{url}}/auctions/page?pageAmount=10&pageIndex=0
-	public Iterable<Auction> getAllInPage(@RequestParam Integer pageAmount, @RequestParam Integer pageIndex){
-		return service.getPage(pageAmount, pageIndex);
+	public Iterable<Auction> getAllPaginated(@RequestParam Integer pageAmount, @RequestParam Integer pageIndex){
+		return service.getAllPaginated(pageAmount, pageIndex);
 	}
 	@GetMapping("/auctions/{auctionId}")		//{{url}}/auctions/1
 	public Auction getAuction(@PathVariable Integer auctionId) {		
