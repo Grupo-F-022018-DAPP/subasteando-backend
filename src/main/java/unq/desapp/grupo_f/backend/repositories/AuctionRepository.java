@@ -28,10 +28,10 @@ public interface AuctionRepository extends CrudRepository<Auction, Integer> {
 	@Query(value="SELECT auction FROM Auction auction WHERE auction.state = ?1 ORDER BY auction.startDate asc, auction.endDate asc ",
 			countQuery="SELECT count(*) FROM Auction auction WHERE auction.state = ?1 ORDER BY auction.startDate, auction.endDate asc")
 	public Page<Auction> getAllByState(Auction.States state, Pageable page);
-	
+
 	@Query("SELECT count(*) FROM Auction auction WHERE auction.state = ?1 ORDER BY auction.startDate, auction.endDate asc")
 	public Integer getCountByState(States state);
-	
+
 
 
 }
