@@ -17,12 +17,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.RegexPatternTypeFilter;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import unq.desapp.grupo_f.backend.repositories.AuctionRepository;
@@ -30,8 +30,9 @@ import unq.desapp.grupo_f.backend.repositories.BidRepository;
 import unq.desapp.grupo_f.backend.repositories.UserRepository;
 
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@RunWith(SpringRunner.class)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@DataJpaTest
 public class ProjectTest {
 
 	@Autowired 
