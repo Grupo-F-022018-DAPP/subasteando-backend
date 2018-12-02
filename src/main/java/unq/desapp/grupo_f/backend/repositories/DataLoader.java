@@ -17,7 +17,7 @@ import unq.desapp.grupo_f.backend.model.Auction;
 import unq.desapp.grupo_f.backend.model.User;
 import unq.desapp.grupo_f.backend.model.builders.AuctionBuilder;
 import unq.desapp.grupo_f.backend.model.builders.UserBuilder;
-import unq.desapp.grupo_f.backend.model.utils.RandomStrings;
+import unq.desapp.grupo_f.backend.utils.RandomStrings;
 
 @Component
 public class DataLoader {

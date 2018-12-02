@@ -17,28 +17,30 @@ import org.springframework.web.bind.annotation.RestController;
 import unq.desapp.grupo_f.backend.model.Auction;
 import unq.desapp.grupo_f.backend.services.AuctionService;
 import unq.desapp.grupo_f.backend.services.dto.AuctionDTO;
+import unq.desapp.grupo_f.backend.utils.CustomLogAnnotation;
 
 @RestController
 public class AuctionController {
 	
 	@Autowired 
 	private AuctionService service;
-	private static final Logger logger = Logger.getLogger(AuctionController.class);
 	//{{url}} = http://localhost:8080
 	
 	@GetMapping(path="/auctions")				//{{url}}/auctions
 	@Transactional
+	@CustomLogAnnotation
 	public Iterable<Auction> getAll(){
-		logger.info("GET ALL");
 		return service.getAll();
 	}
 	@GetMapping(path="/auctions/page")				//{{url}}/auctions/page?pageAmount=10&pageIndex=0
 	@Transactional
+	@CustomLogAnnotation
 	public Iterable<Auction> getAllPaginated(@RequestParam Integer pageAmount, @RequestParam Integer pageIndex){
 		return service.getAllPaginated(pageAmount, pageIndex);
 	}
 	@GetMapping("/auctions/{auctionId}")		//{{url}}/auctions/1
 	@Transactional
+	@CustomLogAnnotation
 	public Auction getAuction(@PathVariable Integer auctionId) {		
 		return this.service.getAuction(auctionId);
 	}

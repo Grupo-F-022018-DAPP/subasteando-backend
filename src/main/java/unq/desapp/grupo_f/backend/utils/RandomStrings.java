@@ -1,4 +1,4 @@
-package unq.desapp.grupo_f.backend.model.utils;
+package unq.desapp.grupo_f.backend.utils;
 
 import java.util.List;
 import java.util.Random;

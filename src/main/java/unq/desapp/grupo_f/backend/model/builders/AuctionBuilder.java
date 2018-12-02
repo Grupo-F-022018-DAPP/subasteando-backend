@@ -8,7 +8,7 @@ import java.util.Random;
 import unq.desapp.grupo_f.backend.model.Auction;
 import unq.desapp.grupo_f.backend.model.User;
 import unq.desapp.grupo_f.backend.model.exceptions.AuctionBuilderException;
-import unq.desapp.grupo_f.backend.model.utils.RandomStrings;
+import unq.desapp.grupo_f.backend.utils.RandomStrings;
 
 public class AuctionBuilder {
 	
