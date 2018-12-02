@@ -6,7 +6,7 @@ import java.util.Random;
 
 import unq.desapp.grupo_f.backend.model.User;
 import unq.desapp.grupo_f.backend.model.exceptions.BuilderException;
-import unq.desapp.grupo_f.backend.model.utils.RandomStrings;
+import unq.desapp.grupo_f.backend.utils.RandomStrings;
 
 public class UserBuilder {
 	

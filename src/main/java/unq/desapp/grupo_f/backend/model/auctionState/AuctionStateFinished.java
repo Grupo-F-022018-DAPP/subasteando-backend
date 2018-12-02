@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import unq.desapp.grupo_f.backend.model.Auction;
+import unq.desapp.grupo_f.backend.model.Auction.States;
 import unq.desapp.grupo_f.backend.model.bid.Bid;
 import unq.desapp.grupo_f.backend.model.exceptions.AuctionStateException;
 
@@ -54,8 +55,8 @@ public class AuctionStateFinished extends AuctionState {
 	}
 
 	@Override
-	public String getName() {
-		return Auction.States.Finished.toString();
+	public States getEnum() {
+		return Auction.States.Finished;
 	}
 
 }

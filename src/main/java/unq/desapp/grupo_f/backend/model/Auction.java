@@ -14,12 +14,12 @@ import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonGetter;
@@ -28,10 +28,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import unq.desapp.grupo_f.backend.model.auctionState.AuctionState;
-import unq.desapp.grupo_f.backend.model.auctionState.AuctionStateClosed;
-import unq.desapp.grupo_f.backend.model.auctionState.AuctionStateFinished;
-import unq.desapp.grupo_f.backend.model.auctionState.AuctionStateInProgress;
-import unq.desapp.grupo_f.backend.model.auctionState.AuctionStateNew;
 import unq.desapp.grupo_f.backend.model.bid.Bid;
 import unq.desapp.grupo_f.backend.model.exceptions.AuctionStateException;
 import unq.desapp.grupo_f.backend.model.exceptions.IncorrectParameterException;
@@ -56,9 +52,8 @@ public class Auction {
 	private LocalDate startDate;
 	@JsonFormat(pattern="dd-MM-yyyy HH:mm:ss")
 	private LocalDateTime endDate;
-	@OneToOne(cascade= CascadeType.ALL)
-	@JsonIgnore
-	private AuctionState state;
+	@Enumerated
+	private States state;
 	
 	@OneToMany(targetEntity=Bid.class, mappedBy="auction", cascade= CascadeType.ALL)
 	@JsonIgnore
@@ -78,7 +73,7 @@ public class Auction {
 		this.initialPrice = 0;
 		this.startDate = LocalDate.now().plusDays(1l);
 		this.endDate = LocalDateTime.now().plusYears(1l);
-		this.state = AuctionStateNew.getInstance();
+		this.state = States.New;
 		this.biddings = new ArrayList<Bid>();
 		this.actualPrice = 0;
 	}
@@ -118,11 +113,11 @@ public class Auction {
 	}
 	public LocalDateTime getEndDate() {
 		return endDate;
-	}	
-	@JsonGetter
+	}
 	public AuctionState getState() {
-		this.state = AuctionState.stateFor(this, this.state);
-		return this.state;
+		AuctionState state = AuctionState.stateFor(this, this.state);
+		this.setState(state);
+		return state;
 	}
 	public Integer getActualPrice() {
 		return actualPrice;
@@ -164,14 +159,14 @@ public class Auction {
 		this.pictures.remove(picture);
 	}
 	public void setInitialPrice(Integer initialPrice) {
-		if(!this.state.isNew()) {
+		if(!getState().isNew()) {
 			throw new AuctionStateException("This auction has already started. It is not possible to change the Initial price");
 		}
 		this.initialPrice = initialPrice;
 		this.actualPrice = initialPrice;
 	}
 	public void setStartDate(LocalDate startDate) {
-		if(!this.state.isNew() || this.state.isClosed()) {
+		if(!getState().isNew() || getState().isClosed()) {
 			throw new AuctionStateException("This auction has already started. Is is not possible to change the Start date.");
 		}
 		if(!areCorrectDates(startDate, endDate)) {
@@ -181,7 +176,7 @@ public class Auction {
 		this.startDate = startDate;
 	}
 	public void setEndDate(LocalDateTime endDate) {
-		if(this.state.isFinished() || this.state.isClosed()) {
+		if(getState().isFinished() || getState().isClosed()) {
 			throw new AuctionStateException("This auction is finished. Is is not possible to change the End date.");
 		}
 		if(!areCorrectDates(this.startDate, endDate)) {
@@ -212,6 +207,9 @@ public class Auction {
 	}
 	
 	public void setState(AuctionState state) {
+		this.state = state.getEnum();
+	}
+	public void setState(States state) {
 		this.state = state;
 	}
 	
@@ -238,14 +236,14 @@ public class Auction {
 		 * Deberia agregarse a una cola para comenzarla mas tarde 
 		 */
 		if(this.isNew() && this.owner.canStartAnAuction()) {
-			this.state = AuctionStateInProgress.getInstance();
+			this.setState(States.InProgress);
 		}else {
 			throw new AuctionStateException("This auction cant start");
 		}
 	}
 	public void finishAuction() {
 		if(this.isInProgress()) {
-			this.state = AuctionStateFinished.getInstance();
+			this.setState(States.Finished);
 		}else {
 			throw new AuctionStateException("An auction that isnt in progress, can not finish");
 		}
@@ -254,11 +252,11 @@ public class Auction {
 		if(this.isFinished()) {
 			throw new AuctionStateException("An auction that has already finished, can not close");
 		}
-		this.state = AuctionStateClosed.getInstance();
+		this.setState(States.Closed);
 	}
 
 	public void addBid(Bid bid) {
-		this.state.addBidForAuction(this, bid);
+		this.getState().addBidForAuction(this, bid);
 		/*
 		 * La logica para agregar una oferta en la subasta, esta en la clase de estado AuctionStateInProgress 
 		 */
@@ -270,13 +268,13 @@ public class Auction {
 
 
 	public void changeStateTo(States state) {
-		if(state == States.InProgress && this.state.isNew()) {
+		if(state == States.InProgress && this.getState().isNew()) {
 			this.startAuction();
 		}
-		if(state == States.Finished && this.state.isInProgress()) {
+		if(state == States.Finished && this.getState().isInProgress()) {
 			this.finishAuction();
 		}
-		if(state == States.Closed && !this.state.isFinished()) {
+		if(state == States.Closed && !this.getState().isFinished()) {
 			this.closeAuction();
 		}
 	}
