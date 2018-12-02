@@ -46,7 +46,7 @@ public class AuctionController {
 	@GetMapping("/auctions/recent")				//{{url}}/auctions/recent?pageAmount=10&pageIndex=0
 	@Transactional
 	@CustomLogAnnotation
-	public List<Auction> getRecentAuctions(@RequestParam Integer pageAmount, @RequestParam Integer pageIndex){
+	public Iterable<Auction> getRecentAuctions(@RequestParam Integer pageAmount, @RequestParam Integer pageIndex){
 		return this.service.getRecentAuctions(pageAmount, pageIndex);
 	}
 	
@@ -83,6 +83,7 @@ public class AuctionController {
 		
 		return service.getStatePaginated(Auction.States.valueOf(state), pageAmount, pageIndex);
 	}
+	
 	
 	
 

@@ -3,6 +3,7 @@ package unq.desapp.grupo_f.backend.services.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +34,7 @@ public class UserController {
 	@GetMapping(path="/users/page")
 	@Transactional
 	@CustomLogAnnotation
-	public List<User> getAllPaginated(@RequestParam Integer pageAmount, @RequestParam Integer pageIndex){
+	public Page<User> getAllPaginated(@RequestParam Integer pageAmount, @RequestParam Integer pageIndex){
 		return service.getAllPaginated(pageAmount, pageIndex);
 	}
 	@GetMapping("/users/{userId}")

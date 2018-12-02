@@ -1,14 +1,15 @@
 package unq.desapp.grupo_f.backend.services;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import unq.desapp.grupo_f.backend.model.Auction;
+import unq.desapp.grupo_f.backend.model.Auction.States;
 import unq.desapp.grupo_f.backend.model.User;
 import unq.desapp.grupo_f.backend.model.builders.AuctionBuilder;
 import unq.desapp.grupo_f.backend.model.exceptions.AuctionException;
@@ -29,11 +30,9 @@ public class AuctionService {
 		return repository.findAll();
 	}
 	
-	public List<Auction> getAllPaginated(Integer pageAmount, Integer pageIndex) {
-		List<Auction> auctions = new ArrayList<Auction>();
+	public Page<Auction> getAllPaginated(Integer pageAmount, Integer pageIndex) {
 		Pageable page = PageRequest.of(pageIndex, pageAmount);
-		auctions.addAll(repository.findAll(page).getContent());
-		return auctions;
+		return repository.findAll(page);
 	}
 	
 	public Auction createAuction(AuctionDTO auctionDTO, Integer userId) {		 
@@ -75,20 +74,22 @@ public class AuctionService {
 		return auction;
 	}
 
-	public List<Auction> getRecentAuctions(Integer pageAmount, Integer pageIndex) {
-		List<Auction> auctions = new ArrayList<Auction>();
+	public Page<Auction> getRecentAuctions(Integer pageAmount, Integer pageIndex) {
 		Pageable page = PageRequest.of(pageIndex, pageAmount);
-		auctions.addAll(repository.findAuctionsInProgress(page).getContent());
-		return auctions;
+		return repository.findAuctionsInProgress(page);
 	}
 
 	public List<Auction> popularAuctionsForAuction(Integer auctionId) {		
 		return this.getAuction(auctionId).popularAuctions();
 	}
 
-	public List<Auction> getStatePaginated(Auction.States state, Integer pageAmount, Integer pageIndex) {
+	public Page<Auction> getStatePaginated(Auction.States state, Integer pageAmount, Integer pageIndex) {
 		Pageable page = PageRequest.of(pageIndex, pageAmount);
-		return this.repository.getAllByState(state, page).getContent();
+		return this.repository.getAllByState(state, page);
+	}
+
+	public Integer getStateCount(States state) {
+		return this.repository.getCountByState(state);
 	}
 
 	

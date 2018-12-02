@@ -82,15 +82,15 @@ public class BidService {
 
 	public Iterable<Bid> getAllPaginated(Integer pageAmount, Integer pageIndex) {
 		// TODO Auto-generated method stub
-		return bidRepo.findAll(PageRequest.of(pageIndex, pageAmount)).getContent();
+		return bidRepo.findAll(PageRequest.of(pageIndex, pageAmount));
 	}
 
 	public Iterable<Bid> getAllBidsOfUserPaginated(Integer userId, Integer pageAmount, Integer pageIndex) {
-		return bidRepo.findAllByUserId(userId, PageRequest.of(pageIndex, pageAmount)).getContent();
+		return bidRepo.findAllByUserId(userId, PageRequest.of(pageIndex, pageAmount));
 	}
 
 	public Iterable<Bid> getAllBidsOfAuctionPaginated(Integer auctionId, Integer pageAmount, Integer pageIndex) {
-		return bidRepo.findAllByAuctionId(auctionId, PageRequest.of(pageIndex, pageAmount)).getContent();
+		return bidRepo.findAllByAuctionId(auctionId, PageRequest.of(pageIndex, pageAmount));
 	}
 
 	

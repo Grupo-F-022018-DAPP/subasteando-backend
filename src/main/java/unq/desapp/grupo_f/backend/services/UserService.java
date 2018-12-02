@@ -3,6 +3,7 @@ package unq.desapp.grupo_f.backend.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -45,8 +46,8 @@ public class UserService {
 		this.repository.deleteById(userId);
 	}
 
-	public List<User> getAllPaginated(Integer pageAmount, Integer pageIndex) {
-		return repository.findAll(PageRequest.of(pageIndex, pageAmount)).getContent();
+	public Page<User> getAllPaginated(Integer pageAmount, Integer pageIndex) {
+		return repository.findAll(PageRequest.of(pageIndex, pageAmount));
 	}
 
 }
