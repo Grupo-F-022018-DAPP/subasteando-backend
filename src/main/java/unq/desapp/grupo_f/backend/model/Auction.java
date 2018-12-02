@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
@@ -21,6 +23,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonGetter;
@@ -39,7 +42,7 @@ public class Auction {
 	public static enum States {New , InProgress, Closed, Finished}
 
     @Id
-    @GeneratedValue(strategy=GenerationType.TABLE)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Integer id;
     
 	private String title;
@@ -53,7 +56,7 @@ public class Auction {
 	private LocalDate startDate;
 	@JsonFormat(pattern="dd-MM-yyyy HH:mm:ss")
 	private LocalDateTime endDate;
-	@Enumerated(EnumType.STRING)
+	@Transient
 	private States state;
 	
 	@OneToMany(targetEntity=Bid.class, mappedBy="auction", cascade= CascadeType.ALL)
@@ -116,11 +119,18 @@ public class Auction {
 		return endDate;
 	}
 	@JsonGetter
-	public AuctionState getState() {
+	public AuctionState getAuctionState() {
 		AuctionState state = AuctionState.stateFor(this, this.state);
 		this.setState(state);
 		return state;
 	}
+	@JsonIgnore
+	@Access(AccessType.PROPERTY)
+	@Enumerated(EnumType.STRING)
+	public States getState() {
+		return getAuctionState().getEnum();
+	}
+	
 	public Integer getActualPrice() {
 		return actualPrice;
 	}
@@ -161,14 +171,14 @@ public class Auction {
 		this.pictures.remove(picture);
 	}
 	public void setInitialPrice(Integer initialPrice) {
-		if(!getState().isNew()) {
+		if(!getAuctionState().isNew()) {
 			throw new AuctionStateException("This auction has already started. It is not possible to change the Initial price");
 		}
 		this.initialPrice = initialPrice;
 		this.actualPrice = initialPrice;
 	}
 	public void setStartDate(LocalDate startDate) {
-		if(!getState().isNew() || getState().isClosed()) {
+		if(!getAuctionState().isNew() || getAuctionState().isClosed()) {
 			throw new AuctionStateException("This auction has already started. Is is not possible to change the Start date.");
 		}
 		if(!areCorrectDates(startDate, endDate)) {
@@ -178,7 +188,7 @@ public class Auction {
 		this.startDate = startDate;
 	}
 	public void setEndDate(LocalDateTime endDate) {
-		if(getState().isFinished() || getState().isClosed()) {
+		if(getAuctionState().isFinished() || getAuctionState().isClosed()) {
 			throw new AuctionStateException("This auction is finished. Is is not possible to change the End date.");
 		}
 		if(!areCorrectDates(this.startDate, endDate)) {
@@ -222,15 +232,15 @@ public class Auction {
 
 	@JsonIgnore
 	public Boolean isNew() {
-		return getState().isNew();
+		return getAuctionState().isNew();
 	}
 	@JsonIgnore
 	public Boolean isInProgress(){
-		return getState().isInProgress();
+		return getAuctionState().isInProgress();
 	}
 	@JsonIgnore
 	public Boolean isFinished(){
-		return getState().isFinished();
+		return getAuctionState().isFinished();
 	}
 	public void startAuction() {
 		/*TODO: 5 subastas en progreso
@@ -258,7 +268,7 @@ public class Auction {
 	}
 
 	public void addBid(Bid bid) {
-		this.getState().addBidForAuction(this, bid);
+		this.getAuctionState().addBidForAuction(this, bid);
 		/*
 		 * La logica para agregar una oferta en la subasta, esta en la clase de estado AuctionStateInProgress 
 		 */
@@ -270,13 +280,13 @@ public class Auction {
 
 
 	public void changeStateTo(States state) {
-		if(state == States.InProgress && this.getState().isNew()) {
+		if(state == States.InProgress && this.getAuctionState().isNew()) {
 			this.startAuction();
 		}
-		if(state == States.Finished && this.getState().isInProgress()) {
+		if(state == States.Finished && this.getAuctionState().isInProgress()) {
 			this.finishAuction();
 		}
-		if(state == States.Closed && !this.getState().isFinished()) {
+		if(state == States.Closed && !this.getAuctionState().isFinished()) {
 			this.closeAuction();
 		}
 	}

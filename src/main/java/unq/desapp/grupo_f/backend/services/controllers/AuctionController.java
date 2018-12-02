@@ -76,6 +76,14 @@ public class AuctionController {
 		return this.service.popularAuctionsForAuction(auctionId);
 	}
 	
+	@GetMapping(path="/auctions/byState/page")				//{{url}}/auctions/New/page?pageAmount=10&pageIndex=0
+	@Transactional
+	@CustomLogAnnotation
+	public Iterable<Auction> getByStatePaginated(@RequestParam String state, @RequestParam Integer pageAmount, @RequestParam Integer pageIndex){
+		
+		return service.getStatePaginated(Auction.States.valueOf(state), pageAmount, pageIndex);
+	}
+	
 	
 
 }

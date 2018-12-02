@@ -154,10 +154,10 @@ public class AuctionTest {
 	public void testUnaSubastaRecienCreadaTieneComoEstadoNuevaSubasta(){
 		Auction newAuction = new Auction();
 		newAuction.setOwner(mockedUser);
-		assertTrue(newAuction.getState().isNew());
-		assertFalse(newAuction.getState().isInProgress());
-		assertFalse(newAuction.getState().isFinished());
-		assertFalse(newAuction.getState().isClosed());
+		assertTrue(newAuction.getAuctionState().isNew());
+		assertFalse(newAuction.getAuctionState().isInProgress());
+		assertFalse(newAuction.getAuctionState().isFinished());
+		assertFalse(newAuction.getAuctionState().isClosed());
 	}
 	@Test
 	public void testUnaSubastaComenzadaTieneComoEstadoEnProgreso(){
@@ -166,10 +166,10 @@ public class AuctionTest {
 		Mockito.when(mockedUser.canStartAnAuction()).thenReturn(true);
 		startedAuction.startAuction();
 		
-		assertFalse(startedAuction.getState().isNew());
-		assertTrue(startedAuction.getState().isInProgress());
-		assertFalse(startedAuction.getState().isFinished());
-		assertFalse(startedAuction.getState().isClosed());
+		assertFalse(startedAuction.getAuctionState().isNew());
+		assertTrue(startedAuction.getAuctionState().isInProgress());
+		assertFalse(startedAuction.getAuctionState().isFinished());
+		assertFalse(startedAuction.getAuctionState().isClosed());
 	}
 	@Test
 	public void testUnaSubastaFinalizadaTieneComoEstadoFinalizada(){
@@ -179,10 +179,10 @@ public class AuctionTest {
 		finishedAuction.startAuction();
 		finishedAuction.finishAuction();
 		
-		assertFalse(finishedAuction.getState().isNew());
-		assertFalse(finishedAuction.getState().isInProgress());
-		assertTrue(finishedAuction.getState().isFinished());
-		assertFalse(finishedAuction.getState().isClosed());
+		assertFalse(finishedAuction.getAuctionState().isNew());
+		assertFalse(finishedAuction.getAuctionState().isInProgress());
+		assertTrue(finishedAuction.getAuctionState().isFinished());
+		assertFalse(finishedAuction.getAuctionState().isClosed());
 	}
 
 	@Test
@@ -191,10 +191,10 @@ public class AuctionTest {
 		closedAuction.setOwner(mockedUser);
 		closedAuction.closeAuction();
 		
-		assertFalse(closedAuction.getState().isNew());
-		assertFalse(closedAuction.getState().isInProgress());
-		assertFalse(closedAuction.getState().isFinished());
-		assertTrue(closedAuction.getState().isClosed());
+		assertFalse(closedAuction.getAuctionState().isNew());
+		assertFalse(closedAuction.getAuctionState().isInProgress());
+		assertFalse(closedAuction.getAuctionState().isFinished());
+		assertTrue(closedAuction.getAuctionState().isClosed());
 	}
 	@Test(expected = AuctionStateException.class)
 	public void testUnaSubastaNoPuedeFinalizarSiNoComenzo(){

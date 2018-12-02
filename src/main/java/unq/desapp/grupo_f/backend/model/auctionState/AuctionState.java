@@ -3,24 +3,15 @@ package unq.desapp.grupo_f.backend.model.auctionState;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import unq.desapp.grupo_f.backend.model.Auction;
 import unq.desapp.grupo_f.backend.model.Auction.States;
 import unq.desapp.grupo_f.backend.model.bid.Bid;
 
-@Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "state_type")
 public abstract class AuctionState{
 	
-    @Id
+
 	protected Integer id;
 	public abstract Boolean isNew();
 	public abstract Boolean isInProgress();

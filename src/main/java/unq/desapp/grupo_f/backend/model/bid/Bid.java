@@ -27,7 +27,7 @@ public abstract class Bid {
 	
 
     @Id
-    @GeneratedValue(strategy=GenerationType.TABLE)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Integer id;
     
     @ManyToOne(cascade= CascadeType.ALL)

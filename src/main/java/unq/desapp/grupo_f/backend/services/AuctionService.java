@@ -63,7 +63,7 @@ public class AuctionService {
 	public Auction updateAuction(Integer auctionId, AuctionDTO auctionDTO) {
 		Auction auction = this.getAuction(auctionId);
 		auction.setDescription(	auctionDTO.getDescription()	);
-		if(auction.getState().isNew()) {
+		if(auction.getAuctionState().isNew()) {
 			auction.setTitle(		auctionDTO.getTitle()		);
 			auction.setInitialPrice(auctionDTO.getInitialPrice());
 			auction.setStartDate(	auctionDTO.getStartDate()	);
@@ -84,6 +84,11 @@ public class AuctionService {
 
 	public List<Auction> popularAuctionsForAuction(Integer auctionId) {		
 		return this.getAuction(auctionId).popularAuctions();
+	}
+
+	public List<Auction> getStatePaginated(Auction.States state, Integer pageAmount, Integer pageIndex) {
+		Pageable page = PageRequest.of(pageIndex, pageAmount);
+		return this.repository.getAllByState(state, page).getContent();
 	}
 
 	
