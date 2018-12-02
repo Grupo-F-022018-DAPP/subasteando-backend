@@ -160,11 +160,12 @@ public class AuctionTest {
 		assertFalse(newAuction.getAuctionState().isClosed());
 	}
 	@Test
-	public void testUnaSubastaComenzadaTieneComoEstadoEnProgreso(){
+	public void testUnaSubastaQueDebeComenzarTieneComoEstadoEnProgreso(){
 		Auction startedAuction = new Auction();
 		startedAuction.setOwner(mockedUser);
-		Mockito.when(mockedUser.canStartAnAuction()).thenReturn(true);
-		startedAuction.startAuction();
+		LocalDate startDate = LocalDate.now().minusDays(1);
+		LocalDateTime endDate = LocalDateTime.now().plusDays(1);
+		startedAuction.setDates(startDate, endDate);
 		
 		assertFalse(startedAuction.getAuctionState().isNew());
 		assertTrue(startedAuction.getAuctionState().isInProgress());
@@ -172,12 +173,13 @@ public class AuctionTest {
 		assertFalse(startedAuction.getAuctionState().isClosed());
 	}
 	@Test
-	public void testUnaSubastaFinalizadaTieneComoEstadoFinalizada(){
+	public void testUnaSubastaQueDebeFinalizarTieneComoEstadoFinalizada(){
 		Auction finishedAuction = new Auction();
 		finishedAuction.setOwner(mockedUser);
-		Mockito.when(mockedUser.canStartAnAuction()).thenReturn(true);
-		finishedAuction.startAuction();
-		finishedAuction.finishAuction();
+
+		LocalDate startDate = LocalDate.now().minusDays(2);
+		LocalDateTime endDate = LocalDateTime.now().minusDays(1);
+		finishedAuction.setDates(startDate, endDate);
 		
 		assertFalse(finishedAuction.getAuctionState().isNew());
 		assertFalse(finishedAuction.getAuctionState().isInProgress());
@@ -237,16 +239,20 @@ public class AuctionTest {
 	public void testUnaSubastaNoPuedeCambiarElPrecioInicialSiYaComenzo(){
 		Auction startedAuction = new Auction();
 		startedAuction.setOwner(mockedUser);
-		Mockito.when(mockedUser.canStartAnAuction()).thenReturn(true);
-		startedAuction.startAuction();
+		LocalDate startDate = LocalDate.now().minusDays(1);
+		LocalDateTime endDate = LocalDateTime.now().plusDays(1);
+		startedAuction.setDates(startDate, endDate);
+		
 		startedAuction.setInitialPrice(1);
 	}
 	@Test(expected = AuctionStateException.class)
 	public void testUnaSubastaNoPuedeCambiarLaFechaDeInicioSiYaComenzo(){
 		Auction startedAuction = new Auction();
 		startedAuction.setOwner(mockedUser);
-		Mockito.when(mockedUser.canStartAnAuction()).thenReturn(true);
-		startedAuction.startAuction();
+		LocalDate startDate = LocalDate.now().minusDays(1);
+		LocalDateTime endDate = LocalDateTime.now().plusDays(1);
+		startedAuction.setDates(startDate, endDate);
+		
 		startedAuction.setStartDate(LocalDate.now().plusDays(1));
 	}
 	@Test
@@ -257,9 +263,9 @@ public class AuctionTest {
 		
 		assertTrue(100 == anyAuction.getActualPrice());
 		assertTrue(105 == anyAuction.getNextPrice());
-
-		Mockito.when(mockedUser.canStartAnAuction()).thenReturn(true);
-		anyAuction.startAuction();
+		LocalDate startDate = LocalDate.now().minusDays(1);
+		LocalDateTime endDate = LocalDateTime.now().plusDays(1);
+		anyAuction.setDates(startDate, endDate);
 		
 		anyAuction.addBid(bid);
 		
@@ -305,10 +311,12 @@ public class AuctionTest {
 		Auction auction2 = builder.buildRandom();
 		Auction auction3 = builder.buildRandom();
 		
-		auctionPrincipal.setState(AuctionStateInProgress.getInstance());
-		auction1.setState(AuctionStateInProgress.getInstance());
-		auction2.setState(AuctionStateInProgress.getInstance());
-		auction3.setState(AuctionStateInProgress.getInstance());
+		LocalDate startDate = LocalDate.now().minusDays(1);
+		LocalDateTime endDate = LocalDateTime.now().plusDays(1);
+		auctionPrincipal.setDates(startDate, endDate);
+		auction1.setDates(startDate, endDate);
+		auction2.setDates(startDate, endDate);
+		auction3.setDates(startDate, endDate);
 		
 		User user1 = new User();
 		User user2 = new User();

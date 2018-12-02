@@ -2,6 +2,9 @@ package unq.desapp.grupo_f.backend.model;
 
 import static org.junit.Assert.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -73,11 +76,10 @@ public class BidTest {
 		auction.setOwner(mockUser);
 		Auction spyAuction = Mockito.spy(auction);
 		spyAuction.setInitialPrice(100);
-		
+		spyAuction.setDates(LocalDate.now().minusDays(1), LocalDateTime.now().plusDays(1));
 		AutomaticBid automaticBid = new AutomaticBid(spyAuction, mockUser, 1000);
 		AutomaticBid spyAutoBid = Mockito.spy(automaticBid);
 		Mockito.when(mockUser.canStartAnAuction()).thenReturn(true);
-		spyAuction.startAuction();
 		
 		User mockUser2 = Mockito.mock(User.class);
 		ManualBid manualBid2 = new ManualBid(spyAuction, mockUser2);
@@ -109,15 +111,15 @@ public class BidTest {
 		User user2 = Mockito.mock(User.class);
 		Auction auction = new Auction();
 		auction.setOwner(owner);
+		auction.setInitialPrice(100); //aumenta de a 5
+		auction.setDates(LocalDate.now().minusDays(1), LocalDateTime.now().plusDays(1));
 		Auction spyAuction = Mockito.spy(auction);
-		spyAuction.setInitialPrice(100); //aumenta de a 5
 		
 		AutomaticBid automaticBid1 = new AutomaticBid(spyAuction, user1, 156);
 		AutomaticBid automaticBid2 = new AutomaticBid(spyAuction, user2, 151);
 		AutomaticBid spyAutoBid1 = Mockito.spy(automaticBid1);
 		AutomaticBid spyAutoBid2 = Mockito.spy(automaticBid2);
 		Mockito.when(owner.canStartAnAuction()).thenReturn(true);
-		spyAuction.startAuction();
 		
 		//Proceso
 		
