@@ -173,7 +173,7 @@ public class DataLoader {
     		LocalDate start = LocalDate.now().plusDays(1l).plusDays(i);
     		LocalDateTime end = LocalDateTime.now().plusDays(1+ (i*30)).plusMonths(2+i).minusDays(new Random().nextInt(29));
     		URL pict = new URL("https://i.imgur.com/" + photos.get(random.nextInt(4)));
-    		title = "Closed: " + possibleTitles.get(random.nextInt(possibleTitles.size() - 1)) + "Nro " + i;
+    		title = "New: " + possibleTitles.get(random.nextInt(possibleTitles.size() - 1)) + "Nro " + i;
     		
     		auction = emptyBuilder.setOwner(owners.get(i))
     							  .setTitle(title)

@@ -19,8 +19,8 @@ public interface AuctionRepository extends CrudRepository<Auction, Integer> {
 	public Optional<Auction> findById(Integer id);
 	public List<Auction> findAll();
 	public Page<Auction> findAll(Pageable page);
-	@Query(value="SELECT auction FROM Auction auction WHERE auction.state.id = 2 ORDER BY auction.startDate asc, auction.endDate asc ",
-			countQuery="SELECT count(*) FROM Auction auction WHERE auction.state.id = 2 ORDER BY auction.startDate, auction.endDate asc")
+	@Query(value="SELECT auction FROM Auction auction WHERE auction.state = 'InProgress' ORDER BY auction.startDate asc, auction.endDate asc ",
+			countQuery="SELECT count(*) FROM Auction auction WHERE auction.state = 'InProgress' ORDER BY auction.startDate, auction.endDate asc")
 	public Page<Auction> findAuctionsInProgress(Pageable page);
 	
 

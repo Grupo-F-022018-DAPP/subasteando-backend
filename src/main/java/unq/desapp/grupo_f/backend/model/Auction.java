@@ -14,6 +14,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -52,7 +53,7 @@ public class Auction {
 	private LocalDate startDate;
 	@JsonFormat(pattern="dd-MM-yyyy HH:mm:ss")
 	private LocalDateTime endDate;
-	@Enumerated
+	@Enumerated(EnumType.STRING)
 	private States state;
 	
 	@OneToMany(targetEntity=Bid.class, mappedBy="auction", cascade= CascadeType.ALL)
@@ -114,6 +115,7 @@ public class Auction {
 	public LocalDateTime getEndDate() {
 		return endDate;
 	}
+	@JsonGetter
 	public AuctionState getState() {
 		AuctionState state = AuctionState.stateFor(this, this.state);
 		this.setState(state);
