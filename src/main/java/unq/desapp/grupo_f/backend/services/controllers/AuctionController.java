@@ -46,28 +46,33 @@ public class AuctionController {
 	}
 	@GetMapping("/auctions/recent")				//{{url}}/auctions/recent?pageAmount=10&pageIndex=0
 	@Transactional
+	@CustomLogAnnotation
 	public List<Auction> getRecentAuctions(@RequestParam Integer pageAmount, @RequestParam Integer pageIndex){
 		return this.service.getRecentAuctions(pageAmount, pageIndex);
 	}
 	
 	@PostMapping(path="/auctions/new")			//{{url}}/auctions/new?userId=1
 	@Transactional
+	@CustomLogAnnotation
 	public Auction newAuction(@RequestParam Integer userId, @RequestBody AuctionDTO auctionDTO) {
 		return this.service.createAuction(auctionDTO, userId);
 	}
 	@PutMapping(path="/auctions/{auctionId}")	//{{url}}/auctions/1
 	@Transactional
+	@CustomLogAnnotation
 	public Auction updateAuction(@PathVariable Integer auctionId, @RequestBody AuctionDTO auctionDTO) {
 		return this.service.updateAuction(auctionId, auctionDTO);
 	}
 	@DeleteMapping("/auctions/{auctionId}")		//{{url}}/auctions/1
 	@Transactional
+	@CustomLogAnnotation
 	public void deleteAuction(@PathVariable Integer auctionId) {		
 		this.service.deleteAuction(auctionId);
 	}
 	
 	@GetMapping(path="/auctions/popular/{auctionId}")
 	@Transactional
+	@CustomLogAnnotation
 	public List<Auction> popularAuctionsForAuction(@PathVariable Integer auctionId) {
 		return this.service.popularAuctionsForAuction(auctionId);
 	}
