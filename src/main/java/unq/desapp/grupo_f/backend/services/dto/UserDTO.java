@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import unq.desapp.grupo_f.backend.model.Auction;
 import unq.desapp.grupo_f.backend.model.User;
 
@@ -22,6 +24,7 @@ public class UserDTO {
 	private String surname;
 	private String email;
 	private String password;
+	@JsonFormat(pattern="dd-MM-yyyy")
 	private LocalDate birthDate;
 	private List<Auction> auctions;
 	private List<Auction> myAuctions;

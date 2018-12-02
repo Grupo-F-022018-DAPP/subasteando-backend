@@ -21,6 +21,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -51,7 +52,9 @@ public class Auction {
 	@CollectionTable(name="PICTURES")
 	private List<URL> pictures;
 	private Integer initialPrice;
+	@JsonFormat(pattern="dd-MM-yyyy")
 	private LocalDate startDate;
+	@JsonFormat(pattern="dd-MM-yyyy HH:mm:ss")
 	private LocalDateTime endDate;
 	@OneToOne(cascade= CascadeType.ALL)
 	@JsonIgnore

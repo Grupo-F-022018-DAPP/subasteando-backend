@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -35,6 +36,7 @@ public class User {
 	private String surname;
 	private String email;
 	private String password;
+	@JsonFormat(pattern="dd-MM-yyyy")
 	private LocalDate birthDate;
 	@ManyToMany(targetEntity= Auction.class, cascade = CascadeType.ALL)
 	@JsonIgnore
