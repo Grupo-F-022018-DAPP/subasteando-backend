@@ -2,6 +2,7 @@ package unq.desapp.grupo_f.backend.services.controllers;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,12 +23,13 @@ public class AuctionController {
 	
 	@Autowired 
 	private AuctionService service;
-	
+	private static final Logger logger = Logger.getLogger(AuctionController.class);
 	//{{url}} = http://localhost:8080
 	
 	@GetMapping(path="/auctions")				//{{url}}/auctions
 	@Transactional
 	public Iterable<Auction> getAll(){
+		logger.info("GET ALL");
 		return service.getAll();
 	}
 	@GetMapping(path="/auctions/page")				//{{url}}/auctions/page?pageAmount=10&pageIndex=0
