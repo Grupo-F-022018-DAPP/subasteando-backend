@@ -90,9 +90,7 @@ public class AuctionBuilder {
 		auction.setInitialPrice(initialPrice.get());
 		
 		auction.areCorrectDates(startDate.get(), endDate.get());
-		
-		auction.setEndDate(endDate.get());
-		auction.setStartDate(startDate.get());
+		auction.setDates(startDate.get(), endDate.get());
 		auction.setOwner(owner.get());
 		direction.ifPresent(direction -> auction.setDirection(direction));
 		return auction;
