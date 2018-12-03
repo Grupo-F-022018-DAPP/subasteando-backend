@@ -196,7 +196,7 @@ public class DataLoader {
     	User user;
 
     	for (Integer i = 0; i <= 99; i++) {
-    		user = emptyBuilder.setName("Test")
+    		user = emptyBuilder.setName("Test ")
    				 				.setSurname("" + i)
    				 				.setEmail("calleFalsa@123.com")
    				 				.setBirthDate(LocalDate.now().minusYears(20))
