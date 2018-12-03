@@ -203,6 +203,7 @@
 				<argLine>${surefireArgLine}</argLine>
 				<excludes>
 					<exclude>**/*IT.java</exclude>
+					<exclude>**/ProjectTest.java</exclude>
 				</excludes>
 			</configuration>
 		</plugin>
