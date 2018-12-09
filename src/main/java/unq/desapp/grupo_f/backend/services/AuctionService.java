@@ -92,7 +92,7 @@ public class AuctionService {
 		return this.repository.getCountByState(state);
 	}
 
-	
+
 	
 	
 }

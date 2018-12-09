@@ -31,7 +31,8 @@ public abstract class Bid {
     private Integer id;
     
     @ManyToOne(cascade= CascadeType.ALL)
-    @JsonIgnore
+	@JsonIgnoreProperties({ "password", "auctionsIds", "myAuctionsIds", "birthDate", "email"})
+	//@JsonIgnore
 	protected User user;
     @ManyToOne(cascade= CascadeType.ALL)
     @JsonIgnore
