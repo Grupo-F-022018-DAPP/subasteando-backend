@@ -29,6 +29,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import unq.desapp.grupo_f.backend.model.auctionState.AuctionState;
@@ -66,7 +67,7 @@ public class Auction {
 	
 	
 	@ManyToOne(cascade= CascadeType.ALL)
-	@JsonIgnore
+	@JsonIgnoreProperties({ "password", "auctionsIds", "myAuctionsIds", "birthDate", "email", "biddingsIds" })
 	private User owner;
 	
 	public Auction() {

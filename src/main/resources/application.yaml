@@ -6,3 +6,22 @@ spring:
     url: "jdbc:mysql://localhost:3306/subasteando_db"
     username: springuser
     password: root
+
+
+
+auth0:
+  issuer: https://tpsubastas.auth0.com/
+  apiAudience: https://subasteando/api
+  
+  domain: https://tpsubastas.auth0.com/
+  clientId: 3AgsX3gbhUws4iBoHy3MQTSMlqOA2ckJ
+
+security:
+  oauth2:
+    resource:
+      id: https://subasteando/api
+      jwk:
+        keySetUri: https://subastas.auth0.com/.well-known/jwks.json
+        
+cors:
+  urls: http://localhost:8080
