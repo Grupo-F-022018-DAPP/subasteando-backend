@@ -109,6 +109,11 @@
 	    <artifactId>spring-security-oauth2-autoconfigure</artifactId>
 	    <version>2.0.6.RELEASE</version>
 	</dependency>
+	<dependency>
+		<groupId>org.springframework.security.oauth</groupId>
+		<artifactId>spring-security-oauth2</artifactId>
+		<version>2.0.10.RELEASE</version>
+	</dependency>
 	<!-- Log4j -->
 	<dependency>
 		<groupId>org.springframework</groupId>

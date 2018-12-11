@@ -17,7 +17,7 @@ import com.auth0.spring.security.api.JwtWebSecurityConfigurer;
 
 
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Value(value = "${auth0.apiAudience}")
@@ -28,7 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:8080"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:8080", "http://localhost:4200"));
         configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE"));
         configuration.setAllowCredentials(true);
         configuration.addAllowedHeader("Authorization");
@@ -44,13 +44,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .forRS256(apiAudience, issuer)
                 .configure(http)
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET		, "/auctions*").permitAll()
-                .antMatchers(HttpMethod.GET		, "/bids*").authenticated()
-                .antMatchers(HttpMethod.GET		, "/users*").authenticated()
-                
-                .antMatchers(HttpMethod.POST	, "/*").authenticated()
-                .antMatchers(HttpMethod.DELETE	, "/*").authenticated()
-                .antMatchers(HttpMethod.PUT		, "/*").authenticated();
+                .anyRequest().permitAll();
+//                .antMatchers(HttpMethod.GET		, "/auctions/**").authenticated()
+//                .antMatchers(HttpMethod.GET		, "/bids/**").authenticated()
+//                .antMatchers(HttpMethod.GET		, "/users/**").authenticated()
+//                
+//                .antMatchers(HttpMethod.POST	, "/**").authenticated()
+//                .antMatchers(HttpMethod.DELETE	, "/**").authenticated()
+//                .antMatchers(HttpMethod.PUT		, "/**").authenticated();
 
 
 }
